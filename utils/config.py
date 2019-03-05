@@ -2,8 +2,8 @@
 import os.path
 
 HOST = 'https://raw.githubusercontent.com/'
-OWNER = 'mbinary' #'USTC-Courses'  #'mbinary'#
-REPO = 'USTC-CS-Courses-Resource'
+OWNER = 'USTC-Resource' #'USTC-Courses'  #'mbinary'#
+REPO = 'USTC-Course'
 BRANCH = 'master'
 
 
@@ -12,22 +12,20 @@ PATH = os.path.join(HOST,OWNER,REPO,BRANCH)
 
 WALKDIR = os.path.abspath('.')
 
-TARDIR = '/mnt/d/blogfile/blog/source/ustc-cs'
+TARDIR = 'docs'
 if not os.path.exists(TARDIR):
     TARDIR = 'docs'
 
 IGNORE = ['utils','docs','__pycache__']
 
-'''
-<head>
-    <meta http-equiv="content-type" content="text/html; charset=utf-8">
-</head>
-'''
 
 HTML = '''
 ---
 title: USTC-CS-Courses-Resource
 ---
+<head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8">
+</head>
     <body>
         <div><h2>
                 <a href="../index.html">&nbsp;&nbsp;<i class="fa fa-level-up"></i>&nbsp;&nbsp;</a>:
