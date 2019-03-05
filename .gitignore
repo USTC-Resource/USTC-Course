@@ -1,0 +1,16 @@
+do.sh
+# use two star ** to repr any internal dir
+.git/**
+.self/**
+.bigFile/**
+/*.zip
+!.gitignore
+~$*
+*.o
+*.toc
+*.synctex.*
+*.log
+*.aux
+*.pyc
+a.out
+__pycache__/**
