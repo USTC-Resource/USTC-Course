@@ -38,7 +38,7 @@ HTML = '''
 </div>
 
 ## 说明
-下面列表根据拼音排序，可点击链接下载二进制文件，或者打开文本文件。<a href="{DOWNLOAD}" style="color:green">点击这里</a>**下载当前整个文件夹**。(使用的 [DownGit](downgit.zhoudaxiaa.com)工具)
+下面列表根据拼音排序，可点击链接下载二进制文件，或者打开文本文件。<a href="{DOWNLOAD}" style="color:red">点击这里</a>**下载当前整个文件夹**。(使用的 [DownGit](downgit.zhoudaxiaa.com)工具)
 
 ## Directories
 <ul>{dirLst}</ul>

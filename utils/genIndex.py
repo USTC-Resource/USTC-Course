@@ -83,7 +83,7 @@ def genIndex(path,dirs,files,htmlTemp = HTML):
     cur = getPath(path)
     dirLst = genDirectoryList(path,dirs)
     fileLst = genFileList(path,files)
-    cont = htmlTemp.format(DOWNLOAD=path,cur=cur,dirLst = dirLst,fileLst = fileLst,readme=md2html(md))
+    cont = htmlTemp.format(DOWNLOAD=DOWNLOAD+path,cur=cur,dirLst = dirLst,fileLst = fileLst,readme=md2html(md))
     tar = os.path.join(TARDIR ,path)
     if not os.path.exists(tar):os.mkdir(tar)
     filename = os.path.join(tar, NAME)
