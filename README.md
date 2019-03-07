@@ -27,7 +27,7 @@
 - <a href="mailto:&#122;huheqin1@gmail.com?subject=%E5%8F%8D%E9%A6%88%E4%B8%8E%E5%BB%BA%E8%AE%AE">email</a>
 
 # 资料下载
-[进入浏览](https://ustc-resource.github.io/USTC-Course)
+[戳我(●'◡'●)](https://ustc-resource.github.io/USTC-Course)
 
 <!--
 ## FTP
