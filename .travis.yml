@@ -1,0 +1,45 @@
+language: python3
+sudo: required
+python: 
+  - "3.6"
+
+notifications:
+  email:
+    recipients:
+      - zhuheqin1@gmail.com
+    on_success: change # default: change
+    on_failure: always # default: always
+
+install:
+  - sudo apt-get install python3 -y
+  - sudo apt-get install python3-pip -y
+  - sudo pip3 install markdown 
+  - sudo pip3 install pypinyin
+
+script:
+  - python3 utils/genReadme.py
+  - python3 utils/genIndex.py
+
+after_script:
+  # Build Master Repository(Coding Pages) 
+  - git config user.name "mbinary"
+  - git config user.email "zhuheqin1@gmail.com"
+  - cd docs
+  - git init
+  - git remote add origin gh-pages https://github.com/USTC-Resource/USTC-Course
+  - git add --all
+  - git commit -m "Travis-CI Update pages with build $TRAVIS_BUILD_NUMBER"
+  - git push --force --quiet "https://${GH_TOKEN}@${GH_REF}" origin gh-pages
+
+addons:
+  apt:
+    update: true
+
+branches:
+  only:
+    - master
+env:
+ global:
+   # Github Pages
+   - GH_REF: github.com/USTC-Resource/USTC-Course
+

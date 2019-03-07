@@ -4,8 +4,7 @@ import re
 import markdown
 import shutil
 from getSize import getSize
-from config import PATH,HTML,WALKDIR,TARDIR,IGNORE
-
+from config import PATH,HTML,WALKDIR,TARDIR,IGNORE,NAME,DOWNLOAD
 hasPinyin = False
 try:
     from pypinyin import pinyin
@@ -84,17 +83,18 @@ def genIndex(path,dirs,files,htmlTemp = HTML):
     cur = getPath(path)
     dirLst = genDirectoryList(path,dirs)
     fileLst = genFileList(path,files)
-    cont = htmlTemp.format(cur=cur,dirLst = dirLst,fileLst = fileLst,readme=md2html(md))
+    print(path)
+    cont = htmlTemp.format(DOWNLOAD=path,cur=cur,dirLst = dirLst,fileLst = fileLst,readme=md2html(md))
     tar = os.path.join(TARDIR ,path)
     if not os.path.exists(tar):os.mkdir(tar)
-    filename = os.path.join(tar, 'index.html')
+    filename = os.path.join(tar, NAME)
     with open(filename,'w') as f:
         f.write(cont)
 
 def getPath(path):
     lst = path.split(os.path.sep)
     lst = lst[::-1]
-    lst.append('<i class="fa fa-home"></i>')
+    lst.append('home <i class="fa fa-home"></i>')
     url = 'index.html'
     res = []
     for i in lst:

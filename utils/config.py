@@ -5,6 +5,7 @@ HOST = 'https://raw.githubusercontent.com/'
 OWNER = 'USTC-Resource' #'USTC-Courses'  #'mbinary'#
 REPO = 'USTC-Course'
 BRANCH = 'master'
+NAME = 'README.md' # index.html
 
 
 PATH = os.path.join(HOST,OWNER,REPO,BRANCH)
@@ -16,40 +17,43 @@ TARDIR = 'docs'
 if not os.path.exists(TARDIR):
     TARDIR = 'docs'
 
-IGNORE = ['utils','docs','__pycache__']
+IGNORE = ['utils','docs','__pycache__','_config.yml']
 
+DOWNLOAD = 'http://downgit.zhoudaxiaa.com/#/home?url=https://github.com/'+OWNER+'/'+REPO+'/tree/'+BRANCH+'/'
 
 HTML = '''
----
-title: USTC-CS-Courses-Resource
----
+<!--
 <head>
     <meta http-equiv="content-type" content="text/html; charset=utf-8">
+    <title> 中国科学技术大学课程资源</title>
 </head>
-    <body>
-        <div><h2>
-                <a href="../index.html">&nbsp;&nbsp;<i class="fa fa-level-up"></i>&nbsp;&nbsp;</a>:
-                /{cur}
-            </h2>
-        <div><span> 根据拼音排序</span></div>
-        </div>
-        <h2>Directories</h2>
-        <ul>
-        {dirLst}
-        </ul>
+-->
+# 中国科学技术大学课程资源
 
-        <h2>Files</h2>
-        <ul>
-        {fileLst}
-        </ul>
+<div>
+  <h2>
+    <a href="../index.html">&nbsp;&nbsp;<i class="fa fa-level-up">back </i>&nbsp;&nbsp;</a>
+    :/{cur}
+  </h2>
+</div>
 
-        <div style="text-decration:underline;display:inline">
-        <a href="https://github.com/mbinary/USTC-CS-Courses-Resource.git" target="_blank" rel="external"><i class="fa fa-github"></i>&nbsp; Github</a>
-        <a href="mailto:&#122;huheqin1@gmail?subject=反馈与建议" style="float:right" target="_blank" rel="external"><i class="fa fa-envelope"></i>&nbsp; Feedback</a>
-        </div>
+## 说明
+下面列表根据拼音排序，可点击链接下载二进制文件，或者打开文本文件。<a href="{DOWNLOAD}" style="color:green">点击这里</a>**下载当前整个文件夹**。(使用的 [DownGit](downgit.zhoudaxiaa.com)工具)
 
-        {readme}
-    </body>
+## Directories
+<ul>{dirLst}</ul>
+
+## Files
+<ul>{fileLst}</ul>
+
+<div style="text-decration:underline;display:inline">
+  <a href="https://github.com/USTC-Resource/USTC-Course.git" target="_blank" rel="external"><i class="fa fa-github"></i>&nbsp; GitHub</a>
+  <a href="mailto:&#122;huheqin1@gmail?subject=反馈与建议" style="float:right" target="_blank" rel="external"><i class="fa fa-envelope"></i>&nbsp; Feedback</a>
+</div>
+
+>>Made by [mbinary](https://mbinary.xyz)
+
+{readme}
 '''
 
 #* 非zip, 非以'.'开头的文件多于 3 个的目录下都有个 zip 文件：`-DIRECTORY 目录下的\d+个文件.zip`,包含当前目录下的一些文件, 这样方便大家一键下载. (在 git commit前, 运行 `./before__commit.sh`可以自动生成)
@@ -58,6 +62,7 @@ README=r'''
 # 中国科学技术大学课程资源
 [![Stars](https://img.shields.io/github/stars/USTC-Resource/USTC-Course.svg?label=Stars&style=social)](https://github.com/USTC-Resource/USTC-Course/stargazers)
 [![Forks](https://img.shields.io/github/forks/USTC-Resource/USTC-Course.svg?label=Forks&style=social)](https://github.com/USTC-Resource/USTC-Course/network/members)
+[![Build](https://travis-ci.org/USTC-Resource/USTC-Course.svg?branch=master)](https://travis-ci.org/USTC-Resource/USTC-Course?branch=master)
 [![repo-size](https://img.shields.io/github/repo-size/USTC-Resource/USTC-Course.svg)]()
 [![License](https://i.creativecommons.org/l/by-nc-sa/4.0/80x15.png)](http://creativecommons.org/licenses/by-nc-sa/4.0/)
 
@@ -73,16 +78,17 @@ README=r'''
 * [贡献投稿](#贡献投稿)
 
 # 版权说明
-本仓库分享资料遵守其创作者之规定, 由同学生自愿投稿。
+本仓库分享资料遵守其创作者之规定, 由同学自愿投稿，仅接收学生原创的或者获得授权的资源。
 
 对无特别声明的资料，谨以[知识共享署名 - 非商业性使用 - 相同方式共享 4.0 国际许可协议](http://creativecommons.org/licenses/by-nc-sa/4.0/) 授权。![](https://i.creativecommons.org/l/by-nc-sa/4.0/80x15.png)
 
 # 反馈方式
 - [issue](https://github.com/USTC-Resource/USTC-Course/issues/new)
 - <a href="mailto:&#122;huheqin1@gmail.com?subject=%E5%8F%8D%E9%A6%88%E4%B8%8E%E5%BB%BA%E8%AE%AE">email</a>
-- [QQ](http://wpa.qq.com/msgrd?v=3&uin=414313516&site=qq&menu=yes)
 
 # 资料下载
+[进入浏览](https://ustc-resource.github.io/USTC-Course)
+
 <!--
 ## FTP
 1. FTP/FTPS:
@@ -104,15 +110,15 @@ README=r'''
 
 
 ## HTTPS
--->
 
 - [github 网页](#课程目录)
-- [脚本生成的网页](https://mbinary.xyz/ustc-cs/)
 - [DownGit](http://downgit.zhoudaxiaa.com/#/home)
 - [gitzip-chrome-extension](https://chrome.google.com/webstore/detail/gitzip-for-github/ffabmkklhbepgcgfonabamgnfafbdlkn)
 
 注意，建议不要直接用 GitHub 仓库的 `Download Zip`。因为网速慢，而且仓库很大，很可能下载到中途就切断连接了。
-推荐用 DownGit 工具，方法很简单，在 GitHub 这里浏览网页到某个文件夹，然后将这个网页地址粘贴到 gitzip 下载即可。
+推荐用 DownGit 工具，方法很简单，在 GitHub 这里浏览网页到某个文件夹，然后将这个网页地址粘贴到 DownGit 下载即可。
+
+-->
 
 # 课程结构
 每门课程大致结构如下，有些栏目可能没有，也可以自己添加认为合理的栏目
@@ -125,7 +131,6 @@ course
 ├ labs
 ├ exams
 ├ notes
-├ experience
 └ README.md
 ```
 # 课程关系
@@ -140,6 +145,7 @@ course
 
 # 贡献投稿
 欢迎大家的参与与贡献^_^ , 欢迎联系 org 管理员， 申请加入 USTC-Resource org。
+* 仅接受学生原创的或者获得授权的资源
 * github 上不能直接上传大于 100mb 的文件。对于超过 100 mb 的文件，可以存在网盘，然后在 README 文件中贴上链接
 * 文件内容的改动会使 git 重新上传, 在没有必要的情况下, 不要对二进制文件做任何更改.
 
