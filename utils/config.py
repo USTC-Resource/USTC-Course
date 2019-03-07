@@ -38,7 +38,7 @@ HTML = '''
 </div>
 
 ## 说明
-下面列表根据拼音排序，可点击链接下载二进制文件，或者打开文本文件。<a href="{DOWNLOAD}" style="color:red">点击这里</a>**下载当前整个文件夹**。(使用的 [DownGit](downgit.zhoudaxiaa.com)工具)
+下面列表根据拼音排序，可点击链接下载二进制文件，或者打开文本文件。<a href="{DOWNLOAD}" style="color:red" target="_black">点击这里</a>**下载当前整个文件夹**。(使用的 [DownGit](http://downgit.zhoudaxiaa.com)工具), Made by [mbinary](https://mbinary.xyz)
 
 ## Directories
 <ul>{dirLst}</ul>
@@ -51,7 +51,6 @@ HTML = '''
   <a href="mailto:&#122;huheqin1@gmail?subject=反馈与建议" style="float:right" target="_blank" rel="external"><i class="fa fa-envelope"></i>&nbsp; Feedback</a>
 </div>
 
->>Made by [mbinary](https://mbinary.xyz)
 
 {readme}
 '''
@@ -87,7 +86,7 @@ README=r'''
 - <a href="mailto:&#122;huheqin1@gmail.com?subject=%E5%8F%8D%E9%A6%88%E4%B8%8E%E5%BB%BA%E8%AE%AE">email</a>
 
 # 资料下载
-[进入浏览](https://ustc-resource.github.io/USTC-Course)
+[戳我(●'◡'●)](https://ustc-resource.github.io/USTC-Course)
 
 <!--
 ## FTP
