@@ -26,7 +26,7 @@ after_script:
   - git config user.email "zhuheqin1@gmail.com"
   - git add docs
   - git commit -m "Travis-CI Update pages with build $TRAVIS_BUILD_NUMBER"
-  - git push -f "https://${GH_TOKEN}@${GH_REF}" origin master
+  - git push -f "https://${GH_TOKEN}@${GH_REF}" master:master
 
 addons:
   apt:
