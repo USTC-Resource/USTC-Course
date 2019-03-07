@@ -148,9 +148,10 @@ def menu():
     print('8.cal val')
     print('9.polynomial iter')
     print('10.menu')
-    primt('11.exit')
+    print('11.exit')
 
 def go():
     menu()
     
-if __name__ = '__main__':
+if __name__ == '__main__':
+    pass
