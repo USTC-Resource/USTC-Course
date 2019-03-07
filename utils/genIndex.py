@@ -52,12 +52,16 @@ def getIcon(name):
     suf=name[name.rfind('.')+1:]
     return FMT_DIC[suf] if suf in FMT_DIC else FMT_DIC['other']
 
-
-def handleDir(target):
+def prepare():
     if os.path.exists(TARDIR):
         os.system('rm -rf '+TARDIR)
-    try:os.mkdir(TARDIR)
+    try:
+        os.mkdir(TARDIR)
+        with open(os.path.join(TARDIR,'_config.yml'),'w',encoding='utf-8') as f:
+            f.write('theme: jekyll-theme-cayman\n')
     except:return
+def handleDir(target):
+    prepare()
     n = len(target)
     gen = os.walk(target)
     for path,dirs,files in gen:
