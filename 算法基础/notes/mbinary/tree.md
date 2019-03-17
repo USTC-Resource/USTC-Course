@@ -54,12 +54,12 @@ description:
 
 通过前序遍历或者后序遍历就可以得到有序序列(升序,降序)
 
-常用三种操作, 插入,删除,查找,时间复杂度是 $O(h)$
-h是树高, 但是由于插入,删除而导致树不平衡, 即可能 $h\geqslant \lfloor logn \rfloor$
+常用三种操作, 插入,删除,查找,时间复杂度是 ![](https://latex.codecogs.com/gif.latex?O(h))
+h是树高, 但是由于插入,删除而导致树不平衡, 即可能 ![](https://latex.codecogs.com/gif.latex?h\geqslant&space;\lfloor&space;logn&space;\rfloor)
 
 <a id="markdown-21-随机构造的二叉查找树" name="21-随机构造的二叉查找树"></a>
 ## 2.1. 随机构造的二叉查找树
-下面可以证明,随机构造,即输入序列有 $n!$中, 每种概率相同的情况下, 期望的树高 $h=O(logn)$
+下面可以证明,随机构造,即输入序列有 ![](https://latex.codecogs.com/gif.latex?n!)中, 每种概率相同的情况下, 期望的树高 ![](https://latex.codecogs.com/gif.latex?h=O(logn))
 
 (直接搬运算法导论上面的啦>_<)
 ![](https://upload-images.jianshu.io/upload_images/7130568-69c57614410f6abd.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
@@ -67,7 +67,7 @@ h是树高, 但是由于插入,删除而导致树不平衡, 即可能 $h\geqslan
 <a id="markdown-22-平均结点深度" name="22-平均结点深度"></a>
 ## 2.2. 平均结点深度
 一个较 上面定理 弱的结论:
->一棵随机构造的二叉查找树,n 个结点的平均深度为 $O(logn)$
+>一棵随机构造的二叉查找树,n 个结点的平均深度为 ![](https://latex.codecogs.com/gif.latex?O(logn))
 
 类似 RANDOMIZED-QUICKSORT 的证明过程, 因为快排 递归的过程就是一个递归 二叉树. 
 随机选择枢纽元就相当于这里的某个子树的根结点 在所有结点的大小随机排名, 如 i. 然后根结点将剩下的结点划分为左子树(i-1)个结点, 右子树(n-i)个结点.
@@ -75,44 +75,29 @@ h是树高, 但是由于插入,删除而导致树不平衡, 即可能 $h\geqslan
 ![](https://upload-images.jianshu.io/upload_images/7130568-6bf2b5a6d286adca.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
 <a id="markdown-23-不同的二叉树数目catalan-num" name="23-不同的二叉树数目catalan-num"></a>
 ## 2.3. 不同的二叉树数目(Catalan num)
-给定$\{1,2,\ldots,n\}$,组成二叉查找树的数目.
+给定![](https://latex.codecogs.com/gif.latex?\{1,2,\ldots,n\}),组成二叉查找树的数目.
 由上面的证明过程, 可以容易地分析得出, 任选第 i 个数作为根, 由于二叉查找树的性质, 其左子树
 应该有 i-1个结点, 右子树有 n-i个结点.
-如果记 n 个结点 的二叉查找树的数目为$b_n$
+如果记 n 个结点 的二叉查找树的数目为![](https://latex.codecogs.com/gif.latex?b_n)
 则有递推公式
-$$
-b_n=\begin{cases}
-1 &n=0 \\
-\sum_{i=1}^{n}b_{i-1}b_{n-i} & n\geqslant 1
-\end{cases}
-$$
+![](https://latex.codecogs.com/gif.latex?&space;b_n=\begin{cases}&space;1&space;&n=0&space;\\&space;\sum_{i=1}^{n}b_{i-1}b_{n-i}&space;&&space;n\geqslant&space;1&space;\end{cases}&space;)
 然后我们来看`<<算法导论>>`(p162,思考题12-4)上怎么求的吧( •̀ ω •́ )y
 设生成函数
-$$B(x)=\sum_{n=0}^{\infty}b_n x^n$$
-下面证明$B(x)=xB(x)^2+1$
-易得$$xB(x)^2=\sum_{i=1}^{\infty}\sum_{n=i}^{\infty}b_{i-1}b_{n-i}x^n$$
-对比$B(x), xB(x)^2+1$的 x 的各次系数,分别是 $b_k,a_{k}$
-当 k=0, $a_k=1=b_k$
+![](https://latex.codecogs.com/gif.latex?B(x)=\sum_{n=0}^{\infty}b_n&space;x^n)
+下面证明![](https://latex.codecogs.com/gif.latex?B(x)=xB(x)^2+1)
+易得![](https://latex.codecogs.com/gif.latex?xB(x)^2=\sum_{i=1}^{\infty}\sum_{n=i}^{\infty}b_{i-1}b_{n-i}x^n)
+对比![](https://latex.codecogs.com/gif.latex?B(x),&space;xB(x)^2+1)的 x 的各次系数,分别是 ![](https://latex.codecogs.com/gif.latex?b_k,a_{k})
+当 k=0, ![](https://latex.codecogs.com/gif.latex?a_k=1=b_k)
 当 k>0
-$$a_{k} = \sum_{i=1}^{k}b_{i-1}b_{k-i} = b_k$$
-所以$B(x)=xB(x)^2+1$
+![](https://latex.codecogs.com/gif.latex?a_{k}&space;=&space;\sum_{i=1}^{k}b_{i-1}b_{k-i}&space;=&space;b_k)
+所以![](https://latex.codecogs.com/gif.latex?B(x)=xB(x)^2+1)
 由此解得
-$$B(x)=\frac{1-\sqrt{1-4x} }{2x}$$
+![](https://latex.codecogs.com/gif.latex?B(x)=\frac{1-\sqrt{1-4x}&space;}{2x})
 在点 x=0 处,
 用泰勒公式得
-$$
-\begin{aligned}
-\lim_{x\to 0}\sqrt{1-4x}&=1+\sum_{n=1}^{\infty}C_n^{\frac{1}{2}}{(-4)}^nx^n  \\
-&=1+\sum_{n=1}^{\infty}\frac{(2n-3)!!{(-4x)}^n}{n!}
-\end{aligned}
-$$
+![](https://latex.codecogs.com/gif.latex?&space;\begin{aligned}&space;\lim_{x\to&space;0}\sqrt{1-4x}&=1+\sum_{n=1}^{\infty}C_n^{\frac{1}{2}}{(-4)}^nx^n&space;\\&space;&=1+\sum_{n=1}^{\infty}\frac{(2n-3)!!{(-4x)}^n}{n!}&space;\end{aligned}&space;)
 所以对应系数
-$$
-\begin{aligned}
-b_n&=\frac{1}{2}\frac{4^{n+1}(2n-1)!!}{2^{n+1}n!}  \\
-  &=\frac{C_{2n}^{n}}{n+1}
-\end{aligned}
-$$
+![](https://latex.codecogs.com/gif.latex?&space;\begin{aligned}&space;b_n&=\frac{1}{2}\frac{4^{n+1}(2n-1)!!}{2^{n+1}n!}&space;\\&space;&=\frac{C_{2n}^{n}}{n+1}&space;\end{aligned}&space;)
 这个数叫做 `Catalan 数`
 <a id="markdown-24-好括号列" name="24-好括号列"></a>
 ## 2.4. 好括号列
@@ -124,28 +109,26 @@ $$
 * 若A是好括号列, 则 (A)是好括号列
 
 
->充要条件: 好括号列 $\Longleftrightarrow$ 左右括号数相等, 且从左向右看, 看到的右括号数不超过左括号数
+>充要条件: 好括号列 ![](https://latex.codecogs.com/gif.latex?\Longleftrightarrow) 左右括号数相等, 且从左向右看, 看到的右括号数不超过左括号数
 
 
 
->定理: 由 n个左括号,n个右括号组成的好括号列个数为$c(n)=\frac{C_{2n}^{n}}{n+1}$
+>定理: 由 n个左括号,n个右括号组成的好括号列个数为![](https://latex.codecogs.com/gif.latex?c(n)=\frac{C_{2n}^{n}}{n+1})
 
 证明:
-由 n左n右组成的括号列有 $\frac{2n}{n!n!}=C_{2n}^{n}$个.
- 设括号列$a_1a_2\ldots a_{2n}$为坏括号列,
-由充要条件, 存在最小的 j, 使得$a_1a_2\ldots a_{j}$中右括号比左括号多一个,
-由于是最小的 j, 所以 $a_j$为右括号, $a_{j+1}$为右括号
-把$a_{j+1}a_{j+2}\ldots a_{2n}$中的左括号变为右括号, 右变左,记为$\bar a_{j+1}\bar a_{j+2}\ldots \bar a_{2n}$
+由 n左n右组成的括号列有 ![](https://latex.codecogs.com/gif.latex?\frac{2n}{n!n!}=C_{2n}^{n})个.
+ 设括号列![](https://latex.codecogs.com/gif.latex?a_1a_2\ldots&space;a_{2n})为坏括号列,
+由充要条件, 存在最小的 j, 使得![](https://latex.codecogs.com/gif.latex?a_1a_2\ldots&space;a_{j})中右括号比左括号多一个,
+由于是最小的 j, 所以 ![](https://latex.codecogs.com/gif.latex?a_j)为右括号, ![](https://latex.codecogs.com/gif.latex?a_{j+1})为右括号
+把![](https://latex.codecogs.com/gif.latex?a_{j+1}a_{j+2}\ldots&space;a_{2n})中的左括号变为右括号, 右变左,记为![](https://latex.codecogs.com/gif.latex?\bar&space;a_{j+1}\bar&space;a_{j+2}\ldots&space;\bar&space;a_{2n})
 
-则括号列$a_1a_2\ldots a_{j}\bar a_{j+1}$为好括号列
-$a_1a_2\ldots a_{j}\bar a_{j+1}\bar a_{j+2}\ldots \bar a_{2n}$可好可坏,且有n-1个右,n+1个左, 共有$\frac{2n}{(n+1)!(n-1)!}=C_{2n}^{n+1}$个.
+则括号列![](https://latex.codecogs.com/gif.latex?a_1a_2\ldots&space;a_{j}\bar&space;a_{j+1})为好括号列
+![](https://latex.codecogs.com/gif.latex?a_1a_2\ldots&space;a_{j}\bar&space;a_{j+1}\bar&space;a_{j+2}\ldots&space;\bar&space;a_{2n})可好可坏,且有n-1个右,n+1个左, 共有![](https://latex.codecogs.com/gif.latex?\frac{2n}{(n+1)!(n-1)!}=C_{2n}^{n+1})个.
 
-所以坏括号列$a_1a_2\ldots a_{2n}$ 与括号列 $a_1a_2\ldots a_{j}\bar a_{j+1}\bar a_{j+2}\ldots \bar a_{2n}$, 有$\frac{2n}{(n+1)!(n-1)!}=C_{2n}^{n+1}$个
+所以坏括号列![](https://latex.codecogs.com/gif.latex?a_1a_2\ldots&space;a_{2n}) 与括号列 ![](https://latex.codecogs.com/gif.latex?a_1a_2\ldots&space;a_{j}\bar&space;a_{j+1}\bar&space;a_{j+2}\ldots&space;\bar&space;a_{2n}), 有![](https://latex.codecogs.com/gif.latex?\frac{2n}{(n+1)!(n-1)!}=C_{2n}^{n+1})个
 
 那么好括号列有
-$$
-c(n)=C_{2n}^{n} - C_{2n}^{n+1} =\frac{C_{2n}^{n}}{n+1}
-$$
+![](https://latex.codecogs.com/gif.latex?&space;c(n)=C_{2n}^{n}&space;-&space;C_{2n}^{n+1}&space;=\frac{C_{2n}^{n}}{n+1}&space;)
 
 >推论: n个字符,进栈出栈(出栈可以在栈不为空的时候随时进行), 则出栈序列有 c(n)种
 
@@ -184,7 +167,7 @@ Aho-Corasick automation,是在字典树上添加匹配失败边(失配指针), �
 
 <a id="markdown-5-平衡二叉树" name="5-平衡二叉树"></a>
 # 5. 平衡二叉树
-上面的二叉查找树不平衡,即经过多次插入,删除后,  其高度变化大, 不能保持$\Theta(n)$的性能
+上面的二叉查找树不平衡,即经过多次插入,删除后,  其高度变化大, 不能保持![](https://latex.codecogs.com/gif.latex?\Theta(n))的性能
 而平衡二叉树就能.
 平衡二叉树都是经过一些旋转操作, 使左右子树的结点高度相差不大,达到平衡
  有如下几种
@@ -199,7 +182,7 @@ Aho-Corasick automation,是在字典树上添加匹配失败边(失配指针), �
 <a id="markdown-52-splaytree" name="52-splaytree"></a>
 ## 5.2. splayTree
 伸展树, 它的特点是每次将访问的结点通过旋转旋转到根结点.
-其实它并不平衡. 但是插入,查找,删除操作 的平摊时间是$O(logn)$
+其实它并不平衡. 但是插入,查找,删除操作 的平摊时间是![](https://latex.codecogs.com/gif.latex?O(logn))
 有三种旋转,下面都是将访问过的 x 旋转到 根部
 <a id="markdown-521-zig-step" name="521-zig-step"></a>
 ### 5.2.1. Zig-step 
@@ -216,7 +199,7 @@ Aho-Corasick automation,是在字典树上添加匹配失败边(失配指针), �
 
 <a id="markdown-54-treap" name="54-treap"></a>
 ## 5.4. treap
-[前面提到](#21-随机构造的二叉查找树), 随机构造的二叉查找树高度为 $h=O(logn)$,以及在[算法 general](/alg-genral.html) 中说明了怎样 随机化(shuffle)一个给定的序列.
+[前面提到](#21-随机构造的二叉查找树), 随机构造的二叉查找树高度为 ![](https://latex.codecogs.com/gif.latex?h=O(logn)),以及在[算法 general](/alg-genral.html) 中说明了怎样 随机化(shuffle)一个给定的序列.
 
 所以,为了得到一个平衡的二叉排序树,我们可以将给定的序列随机化, 然后再进行构造二叉排序树.
 

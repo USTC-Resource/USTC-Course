@@ -33,16 +33,16 @@ description: "B 树的原理与实现,b+ 树介绍"
 # 1. 背景
 当有大量数据储存在磁盘时,如数据库的查找,插入, 删除等操作的实现,  如果要读取或者写入, 磁盘的寻道, 旋转时间很长, 远大于在 内存中的读取,写入时间. 
 
-平时用的二叉排序树搜索元素的时间复杂度虽然是 $O(log_2n)$的, 但是底数还是太小, 树高太高. 
+平时用的二叉排序树搜索元素的时间复杂度虽然是 ![](https://latex.codecogs.com/gif.latex?O(log_2n))的, 但是底数还是太小, 树高太高. 
 
 所以就出现了 B 树(英文为B-Tree, 不是B减树), 可以理解为多叉排序树.  一个结点可以有多个孩子, 于是增大了底数, 减小了高度, 虽然比较的次数多(关键字数多), 但是由于是在内存中比较, 相较于磁盘的读取还是很快的.
 <a id="markdown-2-定义" name="2-定义"></a>
 # 2. 定义
 度为 **d**(degree)的 B 树(阶(order) 为 2d)  定义如下, 
-0. 每个结点中包含有 n 个关键字信息： $(n,P_0,K_1,P_1,K_2,\ldots,K_n,P_n)$。其中：
-       a)   $K_i$为关键字,且关键字按顺序升序排序 $K_{i-1}< K_i$
-       b)   $P_i$ 为指向子树根的接点, $K_{i-1}<P(i-1) < Ki$
-       c)   关键字的数 n 满足(由此也确定了孩子结点的个数): $d-1\leqslant n \leqslant 2d-1$ (根节点可以少于d-1)
+0. 每个结点中包含有 n 个关键字信息： ![](https://latex.codecogs.com/gif.latex?(n,P_0,K_1,P_1,K_2,\ldots,K_n,P_n))。其中：
+       a)   ![](https://latex.codecogs.com/gif.latex?K_i)为关键字,且关键字按顺序升序排序 ![](https://latex.codecogs.com/gif.latex?K_{i-1}<&space;K_i)
+       b)   ![](https://latex.codecogs.com/gif.latex?P_i) 为指向子树根的接点, ![](https://latex.codecogs.com/gif.latex?K_{i-1}<P(i-1)&space;<&space;Ki)
+       c)   关键字的数 n 满足(由此也确定了孩子结点的个数): ![](https://latex.codecogs.com/gif.latex?d-1\leqslant&space;n&space;\leqslant&space;2d-1) (根节点可以少于d-1)
    
 1. 树中每个结点最多含有 2d个孩子（d>=2）；
 2. 除根结点和叶子结点外,其它每个结点至少有 d个孩子；
@@ -51,7 +51,7 @@ description: "B 树的原理与实现,b+ 树介绍"
 
 
 性质:
-$h\leq \left\lfloor \log _{d}\left({\frac {n+1}{2}}\right)\right\rfloor .$
+![](https://latex.codecogs.com/gif.latex?h\leq&space;\left\lfloor&space;\log&space;_{d}\left({\frac&space;{n+1}{2}}\right)\right\rfloor&space;.)
 
 如下是 度为2的 B 树, 每个结点可能有2,3或4 个孩子, 所以也叫 2,3,4树, 等价于[红黑树](/red-black-tree.html#more)
 ![](https://upload-images.jianshu.io/upload_images/7130568-30342360fb9674b4.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
@@ -83,9 +83,9 @@ $h\leq \left\lfloor \log _{d}\left({\frac {n+1}{2}}\right)\right\rfloor .$
 <a id="markdown-4-插入操作" name="4-插入操作"></a>
 # 4. 插入操作
 自顶向下地进行插入操作,  最终插入在叶子结点, 
-考虑到叶子结点如果有 2t-1 $(k_1,k_2,\ldots,k_{2t-1})$个 关键字, 则需要进行分裂, 
+考虑到叶子结点如果有 2t-1 ![](https://latex.codecogs.com/gif.latex?(k_1,k_2,\ldots,k_{2t-1}))个 关键字, 则需要进行分裂, 
 
-一个有 2t-1$(k_1,k_2,\ldots,k_{2t-1})$个关键字 结点分裂是这样进行的:  此结点分裂为 两个关键字为 t-1个的结点, 分别为 $(k_1,k_2,\ldots,k_{t-1})$, $(k_{t+1},k_{t+2},\ldots,k_{2t-1})$, 然后再插入一个关键字$k_t$到父亲结点.
+一个有 2t-1![](https://latex.codecogs.com/gif.latex?(k_1,k_2,\ldots,k_{2t-1}))个关键字 结点分裂是这样进行的:  此结点分裂为 两个关键字为 t-1个的结点, 分别为 ![](https://latex.codecogs.com/gif.latex?(k_1,k_2,\ldots,k_{t-1})), ![](https://latex.codecogs.com/gif.latex?(k_{t+1},k_{t+2},\ldots,k_{2t-1})), 然后再插入一个关键字![](https://latex.codecogs.com/gif.latex?k_t)到父亲结点.
 
 注意同时要将孩子指针移动正确.
 
@@ -126,7 +126,7 @@ $h\leq \left\lfloor \log _{d}\left({\frac {n+1}{2}}\right)\right\rfloor .$
 * 删除结点在叶子结点上
     1.  结点内的关键字个数大于d-1,可以直接删除（大于关键字个数下限,删除不影响 B - 树特性）
     2.  结点内的关键字个数等于d-1（等于关键字个数下限,删除后将破坏 特性）,此时需观察该节点左右兄弟结点的关键字个数：
-        a. **旋转**: 如果其左右兄弟结点中存在关键字个数大于d-1 的结点,则从关键字个数大于 d-1 的兄弟结点中借关键字：**(这里看了网上的很多说法, 都是在介绍关键字的操作,而没有提到孩子结点.  我实现的时候想了很久才想出来:  借关键字时, 比如从右兄弟借一个关键字(第一个$k_1$), 此时即为左旋, 将父亲结点对应关键字移到当前结点, 再将右兄弟的移动父亲结点(因为要满足排序性质, 类似二叉树的选择) 然后进行孩子操作, 将右兄弟的$p_0$ 插入到 当前结点的孩子指针末尾) 左兄弟类似, <mark>而且要注意到边界条件, 比如当前结点是第0个/最后一个孩子, 则没有 左兄弟/右兄弟</mark>**)
+        a. **旋转**: 如果其左右兄弟结点中存在关键字个数大于d-1 的结点,则从关键字个数大于 d-1 的兄弟结点中借关键字：**(这里看了网上的很多说法, 都是在介绍关键字的操作,而没有提到孩子结点.  我实现的时候想了很久才想出来:  借关键字时, 比如从右兄弟借一个关键字(第一个![](https://latex.codecogs.com/gif.latex?k_1)), 此时即为左旋, 将父亲结点对应关键字移到当前结点, 再将右兄弟的移动父亲结点(因为要满足排序性质, 类似二叉树的选择) 然后进行孩子操作, 将右兄弟的![](https://latex.codecogs.com/gif.latex?p_0) 插入到 当前结点的孩子指针末尾) 左兄弟类似, <mark>而且要注意到边界条件, 比如当前结点是第0个/最后一个孩子, 则没有 左兄弟/右兄弟</mark>**)
         
         b. **合并**: 如果其左右兄弟结点中不存在关键字个数大于 t-1 的结点,进行结点合并：将其父结点中的关键字拿到下一层,与该节点的左右兄弟结点的所有关键字合并
  <mark>**同样要注意到边界条件, 比如当前结点是第0个/最后一个孩子, 则没有 左兄弟/右兄弟**</mark>
@@ -336,7 +336,7 @@ B-TREE-SHIFT-TO-LEFT-CHILD(x,i,y,z)
 # 6. B+树
  B+ 树[^3]是 B- 树的变体,与B树不同的地方在于:
 1. 非叶子结点的子树指针与关键字个数相同；
-2. 非叶子结点的子树指针 $p_i$指向关键字值属于 $[k_i,k_{i+1})$ 的子树（B- 树是开区间）；
+2. 非叶子结点的子树指针 ![](https://latex.codecogs.com/gif.latex?p_i)指向关键字值属于 ![](https://latex.codecogs.com/gif.latex?[k_i,k_{i+1})) 的子树（B- 树是开区间）；
 3. 为所有叶子结点增加一个链指针；
 4. **所有关键字都在叶子结点出现**
 

@@ -63,24 +63,24 @@ description: "红黑树的原理与实现, 包括插入, 删除, 以及数据结
 
 <a id="markdown-13-黑高度" name="13-黑高度"></a>
 ## 1.3. 黑高度
-从某个结点 x 到叶结点的黑色结点数,称为此结点的黑高度, 记为 $h_b(x)$
+从某个结点 x 到叶结点的黑色结点数,称为此结点的黑高度, 记为 ![](https://latex.codecogs.com/gif.latex?h_b(x))
 树的黑高度是根的黑高度
 
->1. 以 x 为 根的子树至少包含 $2^{h_b(x)}-1$个结点
->2. 一颗有 n 个内结点的红黑树高度至多为$2lg(n+1)$
+>1. 以 x 为 根的子树至少包含 ![](https://latex.codecogs.com/gif.latex?2^{h_b(x)}-1)个结点
+>2. 一颗有 n 个内结点的红黑树高度至多为![](https://latex.codecogs.com/gif.latex?2lg(n+1))
 
 可用归纳法证明1
 证明 2:
 设树高 h
-由红黑性质4, 根结点到叶子路径上的黑结点数至少 $\frac{h}{2}$,即 $h_b(root)\geqslant \frac{h}{2}$
+由红黑性质4, 根结点到叶子路径上的黑结点数至少 ![](https://latex.codecogs.com/gif.latex?\frac{h}{2}),即 ![](https://latex.codecogs.com/gif.latex?h_b(root)\geqslant&space;\frac{h}{2})
 再由1, 
-$$n \geqslant 2^{h_b(x)} -1 \geqslant 2^{\frac{h}{2}} -1$$
+![](https://latex.codecogs.com/gif.latex?n&space;\geqslant&space;2^{h_b(x)}&space;-1&space;\geqslant&space;2^{\frac{h}{2}}&space;-1)
 
-即 $ h\leqslant 2lg(n+1)$
+即 ![](https://latex.codecogs.com/gif.latex?h\leqslant&space;2lg(n+1))
 
 <a id="markdown-2-旋转" name="2-旋转"></a>
 # 2. 旋转
-由于上面证明的红黑树高为 $O(logn)$,红黑树的 insert, delete, search 等操作都是, $O(logn)$.
+由于上面证明的红黑树高为 ![](https://latex.codecogs.com/gif.latex?O(logn)),红黑树的 insert, delete, search 等操作都是, ![](https://latex.codecogs.com/gif.latex?O(logn)).
 进行了 insert, delete 后可能破坏红黑性质, 可以通过旋转来保持.
 
 
@@ -345,15 +345,15 @@ w 表示 x 的相抵. w 不能为 nil(因为 x 是双重黑色)
 # 5. 数据结构的扩张
 <a id="markdown-51-平衡树的扩张" name="51-平衡树的扩张"></a>
 ## 5.1. 平衡树的扩张
-通过在平衡树(如红黑树上的每个结点 加上 一个数据域 size (表示以此结点为根的子树的结点数.) 可以使`获得第 i 大的数` 的时间复杂度为 $O(logn)$
+通过在平衡树(如红黑树上的每个结点 加上 一个数据域 size (表示以此结点为根的子树的结点数.) 可以使`获得第 i 大的数` 的时间复杂度为 ![](https://latex.codecogs.com/gif.latex?O(logn))
 
-在 $O(n)$ 时间内建立, python代码如下
+在 ![](https://latex.codecogs.com/gif.latex?O(n)) 时间内建立, python代码如下
 ```python
 def setSize(root):
     if root is None:return 0
     root.size = setSize(root.left) + setSize(root.right)+1
 ```
-在$O(logn)$时间查找,
+在![](https://latex.codecogs.com/gif.latex?O(logn))时间查找,
 ```python
 def find(root,i):
     r =  root.left.size +1

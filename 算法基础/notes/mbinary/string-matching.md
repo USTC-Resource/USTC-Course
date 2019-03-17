@@ -19,143 +19,25 @@ In this article, I will show you some kinds of popular string matching algorithm
 ## Rabin-Karp
 We can view a string of k characters (digits) as a length-k decimal number.  E.g., the string “31425” corresponds to the decimal number 31,425.
 - Given a pattern P [1..m], let p denote the corresponding decimal value.
-- Given a text T [1..n], let $t_s$ denote the decimal value of the length-m substring  T [(s+1)..(s+m)] for s=0,1,…,(n-m).
-- let `d` be the radix of num, thus $d = len(set(s))$
-- $t_s$ = p iff T [(s+1)..(s+m)] = P [1..m].
+- Given a text T [1..n], let ![](https://latex.codecogs.com/gif.latex?t_s) denote the decimal value of the length-m substring  T [(s+1)..(s+m)] for s=0,1,…,(n-m).
+- let `d` be the radix of num, thus ![](https://latex.codecogs.com/gif.latex?d&space;=&space;len(set(s)))
+- ![](https://latex.codecogs.com/gif.latex?t_s) = p iff T [(s+1)..(s+m)] = P [1..m].
 - p can be computed in O(m) time. p = P[m] + d\*(P[m-1] + d\*(P[m-2]+…)).
-- $t_0$ can similarly be computed in O(m) time.
-- Other $t_1,\ldots,t_{n-m}$ can be computed in O(n-m) time since $t_{s+1} can be computed from ts in constant time.
-
-Namely, 
-$$ 
+- ![](https://latex.codecogs.com/gif.latex?t_0) can similarly be computed in O(m) time.
+- Other ![](https://latex.codecogs.com/gif.latex?t_1,\ldots,t_{n-m}) can be computed in O(n-m) time since ![](https://latex.codecogs.com/gif.latex?t_{s+1}&space;can&space;be&space;computed&space;from&space;ts&space;in&space;constant&space;time.&space;Namely,&space;) 
 t_{s+1} = d*(t_s-d^{m-1} * T[s+1])+T[s+m+1]
-$$
-However, it's no need to calculate $t_{s+1}$ directly. We can use modulus operation to reduce the work of caculation.
-
-We choose a small prime number. Eg 13 for radix( denoted as d) 10.
-Generally, $d*q$ should fit within one computer word.
-
-We firstly caculate $t_0$ mod q.
-Then, for every $t_i (i>1)$
-assume
-$$
+![](https://latex.codecogs.com/gif.latex?&space;However,&space;it's&space;no&space;need&space;to&space;calculate)t_{s+1}![](https://latex.codecogs.com/gif.latex?directly.&space;We&space;can&space;use&space;modulus&space;operation&space;to&space;reduce&space;the&space;work&space;of&space;caculation.&space;We&space;choose&space;a&space;small&space;prime&space;number.&space;Eg&space;13&space;for&space;radix(&space;denoted&space;as&space;d)&space;10.&space;Generally,)d*q![](https://latex.codecogs.com/gif.latex?should&space;fit&space;within&space;one&space;computer&space;word.&space;We&space;firstly&space;caculate)t_0![](https://latex.codecogs.com/gif.latex?mod&space;q.&space;Then,&space;for&space;every)t_i (i>1)![](https://latex.codecogs.com/gif.latex?&space;assume&space;)
  t_{i-1} = T[i+m-1] + d*T[i+m-2]+\ldots+d^{m-1}*T[i-1]
-$$
-denote $ d' = d^{m-1}\ mod\ q$
-thus,
-$$
+![](https://latex.codecogs.com/gif.latex?&space;denote) d' = d^{m-1}\ mod\ q![](https://latex.codecogs.com/gif.latex?&space;thus,&space;)
 \begin{aligned}
 t_i &= (t_{i-1} - d^{m-1}*T[i-1]) * d + T[i+m]\\
 &\equiv (t_{i-1} - d^{m-1}*T[i-1]) * d + T[i+m] (mod\ q)\\
 &\equiv (t_{i-1}- ( d^{m-1} mod \ q) *T[i-1]) * d + T[i+m] (mod\ q)\\
 &\equiv (t_{i-1}- d'*T[i-1]) * d + T[i+m] (mod\ q)
 \end{aligned}
-$$
-
-So we can compare the modular value of each $t_i$ with p's.
-Only if they are the same, then we compare the origin chracters, namely 
-$$T[i],T[i+1],\ldots,T[i+m-1]$$ 
-and the pattern characters.
-Gernerally, this algorithm's time approximation is O(n+m), and the worst case is O((n-m+1)*m)
-
-**Problem: this is assuming p and $t_s$ are small numbers. They may be too large to work with easily.**
-
-
-python implementation
-```python
-#coding: utf-8
-''' mbinary
-#########################################################################
-# File : rabin_karp.py
-# Author: mbinary
-# Mail: zhuheqin1@gmail.com
-# Blog: https://mbinary.github.io
-# Github: https://github.com/mbinary
-# Created Time: 2018-12-11  00:01
-# Description: rabin-karp algorithm
-#########################################################################
-'''
-
-def isPrime(x):
-    for i in range(2,int(x**0.5)+1):
-        if x%i==0:return False
-    return True
-def getPrime(x):
-    '''return a prime which is bigger than x'''
-    for i in range(x,2*x):
-        if isPrime(i):return i
-def findAll(s,p):
-    '''s: string   p: pattern'''
-    dic={}
-    n,m = len(s),len(p)
-    d=0 #radix
-    for c in s:
-        if c not in dic:
-            dic[c]=d
-            d+=1
-    sm = 0
-    for c in p:
-        if c not in dic:return []
-        sm = sm*d+dic[c]
-
-    ret = []
-    cur = 0
-    for i in range(m): cur=cur*d + dic[s[i]]
-    if cur==sm:ret.append(0)
-    tmp = n-m
-    q = getPrime(m)
-    cur = cur%q
-    sm = sm%q
-    exp = d**(m-1) % q
-    for i in range(m,n):
-        cur = ((cur-dic[s[i-m]]*exp)*d+dic[s[i]]) % q
-        if cur == sm and p==s[i-m+1:i+1]:
-            ret.append(i-m+1)
-    return ret
-
-def randStr(n=3):
-    return [randint(ord('a'),ord('z')) for i in range(n)]
-
-if __name__ =='__main__':
-    from random import randint
-    s = randStr(50)
-    p = randStr(1)
-    print(s)
-    print(p)
-    print(findAll(s,p))
-```
-## FSM
-A FSM can be represented as $(Q,q_0,A,S,C)$, where
-- Q is the set of all states
-- $q_0$ is the start state
-- $A\in Q$ is a set of accepting states.
-- S is a finite input alphabet.
-- C is the set of transition functions: namely  $q_j = c(s,q_i)$.
-
-Given a pattern string S, we can build a FSM for string matching.
-Assume S has m chars, and there should be m+1 states. One is for the begin state, and the others are for matching state of each position of S.
-
-Once we have built the FSM, we can run it on any input string.
-## KMP
->Knuth-Morris-Pratt method
-
-The idea is inspired by FSM. We can avoid computing the transition functions. Instead, we compute a prefix function P in O(m) time, which has only m entries.
-> Prefix funtion stores info about how the pattern matches against shifts of itself.
-
-- String w is a prefix of string x, if x=wy for some string y
-- String w is a suffix of string x, if x=yw for some string y
-- The k-character prefix of the pattern P [1..m] denoted by Pk.
-- Given that pattern prefix P [1..q] matches text characters T [(s+1)..(s+q)], what is the least shift s'> s such that P [1..k] = T [(s'+1)..(s'+k)] where s'+k=s+q?
-- At the new shift s', no need to compare the first k characters of P with corresponding characters of T.
-Method: For prefix $p_i$, find the longest proper prefix of $p_i$ that is also a suffix of $p_i$.
-$$
+![](https://latex.codecogs.com/gif.latex?&space;So&space;we&space;can&space;compare&space;the&space;modular&space;value&space;of&space;each)t_i![](https://latex.codecogs.com/gif.latex?with&space;p's.&space;Only&space;if&space;they&space;are&space;the&space;same,&space;then&space;we&space;compare&space;the&space;origin&space;chracters,&space;namely&space;)T[i],T[i+1],\ldots,T[i+m-1]![](https://latex.codecogs.com/gif.latex?&space;and&space;the&space;pattern&space;characters.&space;Gernerally,&space;this&space;algorithm's&space;time&space;approximation&space;is&space;O(n+m),&space;and&space;the&space;worst&space;case&space;is&space;O((n-m+1)*m)&space;**Problem:&space;this&space;is&space;assuming&space;p&space;and)t_s![](https://latex.codecogs.com/gif.latex?are&space;small&space;numbers.&space;They&space;may&space;be&space;too&space;large&space;to&space;work&space;with&space;easily.**&space;python&space;implementation&space;```python&space;#coding:&space;utf-8&space;'''&space;mbinary&space;#########################################################################&space;#&space;File&space;:&space;rabin_karp.py&space;#&space;Author:&space;mbinary&space;#&space;Mail:&space;zhuheqin1@gmail.com&space;#&space;Blog:&space;https://mbinary.github.io&space;#&space;Github:&space;https://github.com/mbinary&space;#&space;Created&space;Time:&space;2018-12-11&space;00:01&space;#&space;Description:&space;rabin-karp&space;algorithm&space;#########################################################################&space;'''&space;def&space;isPrime(x):&space;for&space;i&space;in&space;range(2,int(x**0.5)+1):&space;if&space;x%i==0:return&space;False&space;return&space;True&space;def&space;getPrime(x):&space;'''return&space;a&space;prime&space;which&space;is&space;bigger&space;than&space;x'''&space;for&space;i&space;in&space;range(x,2*x):&space;if&space;isPrime(i):return&space;i&space;def&space;findAll(s,p):&space;'''s:&space;string&space;p:&space;pattern'''&space;dic={}&space;n,m&space;=&space;len(s),len(p)&space;d=0&space;#radix&space;for&space;c&space;in&space;s:&space;if&space;c&space;not&space;in&space;dic:&space;dic[c]=d&space;d+=1&space;sm&space;=&space;0&space;for&space;c&space;in&space;p:&space;if&space;c&space;not&space;in&space;dic:return&space;[]&space;sm&space;=&space;sm*d+dic[c]&space;ret&space;=&space;[]&space;cur&space;=&space;0&space;for&space;i&space;in&space;range(m):&space;cur=cur*d&space;+&space;dic[s[i]]&space;if&space;cur==sm:ret.append(0)&space;tmp&space;=&space;n-m&space;q&space;=&space;getPrime(m)&space;cur&space;=&space;cur%q&space;sm&space;=&space;sm%q&space;exp&space;=&space;d**(m-1)&space;%&space;q&space;for&space;i&space;in&space;range(m,n):&space;cur&space;=&space;((cur-dic[s[i-m]]*exp)*d+dic[s[i]])&space;%&space;q&space;if&space;cur&space;==&space;sm&space;and&space;p==s[i-m+1:i+1]:&space;ret.append(i-m+1)&space;return&space;ret&space;def&space;randStr(n=3):&space;return&space;[randint(ord('a'),ord('z'))&space;for&space;i&space;in&space;range(n)]&space;if&space;__name__&space;=='__main__':&space;from&space;random&space;import&space;randint&space;s&space;=&space;randStr(50)&space;p&space;=&space;randStr(1)&space;print(s)&space;print(p)&space;print(findAll(s,p))&space;```&space;##&space;FSM&space;A&space;FSM&space;can&space;be&space;represented&space;as)(Q,q_0,A,S,C)![](https://latex.codecogs.com/gif.latex?,&space;where&space;-&space;Q&space;is&space;the&space;set&space;of&space;all&space;states&space;-)q_0![](https://latex.codecogs.com/gif.latex?is&space;the&space;start&space;state&space;-)A\in Q![](https://latex.codecogs.com/gif.latex?is&space;a&space;set&space;of&space;accepting&space;states.&space;-&space;S&space;is&space;a&space;finite&space;input&space;alphabet.&space;-&space;C&space;is&space;the&space;set&space;of&space;transition&space;functions:&space;namely)q_j = c(s,q_i)![](https://latex.codecogs.com/gif.latex?.&space;Given&space;a&space;pattern&space;string&space;S,&space;we&space;can&space;build&space;a&space;FSM&space;for&space;string&space;matching.&space;Assume&space;S&space;has&space;m&space;chars,&space;and&space;there&space;should&space;be&space;m+1&space;states.&space;One&space;is&space;for&space;the&space;begin&space;state,&space;and&space;the&space;others&space;are&space;for&space;matching&space;state&space;of&space;each&space;position&space;of&space;S.&space;Once&space;we&space;have&space;built&space;the&space;FSM,&space;we&space;can&space;run&space;it&space;on&space;any&space;input&space;string.&space;##&space;KMP&space;>Knuth-Morris-Pratt&space;method&space;The&space;idea&space;is&space;inspired&space;by&space;FSM.&space;We&space;can&space;avoid&space;computing&space;the&space;transition&space;functions.&space;Instead,&space;we&space;compute&space;a&space;prefix&space;function&space;P&space;in&space;O(m)&space;time,&space;which&space;has&space;only&space;m&space;entries.&space;>&space;Prefix&space;funtion&space;stores&space;info&space;about&space;how&space;the&space;pattern&space;matches&space;against&space;shifts&space;of&space;itself.&space;-&space;String&space;w&space;is&space;a&space;prefix&space;of&space;string&space;x,&space;if&space;x=wy&space;for&space;some&space;string&space;y&space;-&space;String&space;w&space;is&space;a&space;suffix&space;of&space;string&space;x,&space;if&space;x=yw&space;for&space;some&space;string&space;y&space;-&space;The&space;k-character&space;prefix&space;of&space;the&space;pattern&space;P&space;[1..m]&space;denoted&space;by&space;Pk.&space;-&space;Given&space;that&space;pattern&space;prefix&space;P&space;[1..q]&space;matches&space;text&space;characters&space;T&space;[(s+1)..(s+q)],&space;what&space;is&space;the&space;least&space;shift&space;s'>&space;s&space;such&space;that&space;P&space;[1..k]&space;=&space;T&space;[(s'+1)..(s'+k)]&space;where&space;s'+k=s+q?&space;-&space;At&space;the&space;new&space;shift&space;s',&space;no&space;need&space;to&space;compare&space;the&space;first&space;k&space;characters&space;of&space;P&space;with&space;corresponding&space;characters&space;of&space;T.&space;Method:&space;For&space;prefix)p_i![](https://latex.codecogs.com/gif.latex?,&space;find&space;the&space;longest&space;proper&space;prefix&space;of)p_i![](https://latex.codecogs.com/gif.latex?that&space;is&space;also&space;a&space;suffix&space;of)p_i![](https://latex.codecogs.com/gif.latex?.&space;)
 pre[q] = max\{k|k<q , p_k \text{is a suffix of } p_q\}
-$$
-
-For example:  p = ababaca,
-Then,
-$p_5$ = ababa, pre[5] = 3. 
-Namely $p_3$=aba is the longest prefix of p that is also a suffix of $p_5$.
+![](https://latex.codecogs.com/gif.latex?&space;For&space;example:&space;p&space;=&space;ababaca,&space;Then,&space;)p_5![](https://latex.codecogs.com/gif.latex?=&space;ababa,&space;pre[5]&space;=&space;3.&space;Namely)p_3![](https://latex.codecogs.com/gif.latex?=aba&space;is&space;the&space;longest&space;prefix&space;of&space;p&space;that&space;is&space;also&space;a&space;suffix&space;of)p_5$.
 
 Time approximation: finding prefix function take O(m), matching takes O(m+n)
 

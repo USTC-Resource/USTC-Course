@@ -25,7 +25,7 @@ description: "bezouts-identity, primality_test, miller-rabin, prime-sieve, polla
 <a id="markdown-01-gcd-co-primes" name="01-gcd-co-primes"></a>
 ## 0.1. gcd, co-primes
 `gcd` is  short for  `greatest common divisor`
-If `a`,`b` are  co-primes, we denote as $(a,b)=1, \text{which means } gcd(a,b)=1 $
+If `a`,`b` are  co-primes, we denote as ![](https://latex.codecogs.com/gif.latex?(a,b)=1,&space;\text{which&space;means&space;}&space;gcd(a,b)=1)
 We can use `Euclid algorithm` to calculate `gcd` of two numbers.
 ```python
 def gcd(a,b):
@@ -87,8 +87,8 @@ def twoDivideFind(x,li):
 Just like the Fermat and Solovay–Strassen tests, the Miller–Rabin test relies on an equality or set of equalities that hold true for prime values, then checks whether or not they hold for a number that we want to test for primality.
 
 First, a [lemma](https://en.wikipedia.org/wiki/Lemma_(mathematics) "Lemma (mathematics)") about square [roots of unity](https://en.wikipedia.org/wiki/Root_of_unity "Root of unity") in the [finite field](https://en.wikipedia.org/wiki/Finite_field "Finite field") **Z**/*p***Z**, where *p* is prime and *p* > 2\. Certainly 1 and −1 always yield 1 when squared modulo *p*; call these [trivial](https://en.wikipedia.org/wiki/Trivial_(mathematics) "Trivial (mathematics)") [square roots](https://en.wikipedia.org/wiki/Square_root "Square root") of 1\. There are no *nontrivial* square roots of 1 modulo *p* (a special case of the result that, in a field, a [polynomial](https://en.wikipedia.org/wiki/Polynomial "Polynomial") has no more zeroes than its degree). To show this, suppose that *x* is a square root of 1 modulo *p*. Then:
-$$ x^2\equiv1\ (mod\ p)$$
-$$(x-1)(x+1) \equiv 0\ (mod\ p)$$
+![](https://latex.codecogs.com/gif.latex?x^2\equiv1\&space;(mod\&space;p))
+![](https://latex.codecogs.com/gif.latex?(x-1)(x+1)&space;\equiv&space;0\&space;(mod\&space;p))
 
 
 
@@ -96,22 +96,22 @@ In other words, prime *p* divides the product (*x* − 1)(*x* + 1). By [E
 
 Now, let *n* be prime, and odd, with *n* > 2\. It follows that *n* − 1 is even and we can write it as 2<sup>*s*</sup>·*d*, where *s* and *d* are positive integers and *d* is odd. For each *a* in (**Z**/*n***Z**)*, either
 
-$$a^d\equiv 1\ (mod\ n)$$
+![](https://latex.codecogs.com/gif.latex?a^d\equiv&space;1\&space;(mod\&space;n))
 or
-$$a^{2^r*d}\equiv -1\ (mod\ n), \text{where } 0\le r<s$$
+![](https://latex.codecogs.com/gif.latex?a^{2^r*d}\equiv&space;-1\&space;(mod\&space;n),&space;\text{where&space;}&space;0\le&space;r<s)
 
 
 
 To show that one of these must be true, recall [Fermat's little theorem](https://en.wikipedia.org/wiki/Fermat%27s_little_theorem "Fermat's little theorem"), that for a prime number n:
-$$a^{n-1}\equiv1\ (mod\ n)$$
+![](https://latex.codecogs.com/gif.latex?a^{n-1}\equiv1\&space;(mod\&space;n))
 
 By the lemma above, if we keep taking square roots of *a*<sup>*n*−1</sup>, we will get either 1 or −1\. If we get −1 then the second equality holds and it is done. If we never get −1, then when we have taken out every power of 2, we are left with the first equality.
 
 The Miller–Rabin primality test is based on the [contrapositive](https://en.wikipedia.org/wiki/Contrapositive "Contrapositive") of the above claim. That is, if we can find an *a* such that
-$$a^d\not\equiv 1\ (mod\ n)$$
+![](https://latex.codecogs.com/gif.latex?a^d&space;ot\equiv&space;1\&space;(mod\&space;n))
 and
 
-$$a^{2^r*d}\not\equiv -1\ (mod\ n), \text{where } 0\le r<s$$
+![](https://latex.codecogs.com/gif.latex?a^{2^r*d}&space;ot\equiv&space;-1\&space;(mod\&space;n),&space;\text{where&space;}&space;0\le&space;r<s)
 
  then *n* is not prime. We call *a* a [witness](https://en.wikipedia.org/wiki/Witness_(mathematics) "Witness (mathematics)") for the compositeness of *n* (sometimes misleadingly called a *strong witness*, although it is a certain proof of this fact). Otherwise *a* is called a *strong liar*, and *n* is a [strong probable prime](https://en.wikipedia.org/wiki/Probable_prime "Probable prime") to base *a*. The term "strong liar" refers to the case where *n* is composite but nevertheless the equations hold as they would for a prime.
 
@@ -179,22 +179,22 @@ def isPrime(n,t=5):
 
 
 Suppose we need to factorize a number 
-$n=pq$, where $p$ is a non-trivial factor. A polynomial modulo $n$, called
-$$g(x)=x^2+c\ mod\ n$$
+![](https://latex.codecogs.com/gif.latex?n=pq), where ![](https://latex.codecogs.com/gif.latex?p) is a non-trivial factor. A polynomial modulo ![](https://latex.codecogs.com/gif.latex?n), called
+![](https://latex.codecogs.com/gif.latex?g(x)=x^2+c\&space;mod\&space;n)
 where c is a chosen number ,eg 1.
 
 is used to generate a [pseudo-random sequence](https://en.wikipedia.org/wiki/Pseudo-random_sequence "Pseudo-random sequence"): A starting value, say 2, is chosen, and the sequence continues as  
-$$x_1 = g(2),x_2=g(g(2)),\ldots, x_i =g^{(i)}(2) = g(x_{i-1})$$
+![](https://latex.codecogs.com/gif.latex?x_1&space;=&space;g(2),x_2=g(g(2)),\ldots,&space;x_i&space;=g^{(i)}(2)&space;=&space;g(x_{i-1}))
 , 
-The sequence is related to another sequence$\{x_k\ mod \ p\}$ . Since $p$ is not known beforehand, this sequence cannot be explicitly computed in the algorithm. Yet, in it lies the core idea of the algorithm.
+The sequence is related to another sequence![](https://latex.codecogs.com/gif.latex?\{x_k\&space;mod&space;\&space;p\}) . Since ![](https://latex.codecogs.com/gif.latex?p) is not known beforehand, this sequence cannot be explicitly computed in the algorithm. Yet, in it lies the core idea of the algorithm.
 
-Because the number of possible values for these sequences are finite, both the$\{x_n\}$ sequence, which is mod $n$ , and $\{x_n\ mod\ p\}$ sequence will eventually repeat, even though we do not know the latter. Assume that the sequences behave like random numbers. Due to the [birthday paradox](https://en.wikipedia.org/wiki/Birthday_paradox "Birthday paradox"), the number of$x_k$before a repetition occurs is expected to be $O(\sqrt{N})$ , where $N$  is the number of possible values. So the sequence  $\{x_n\ mod\ p\}$  will likely repeat much earlier than the sequence $x_k$. Once a sequence has a repeated value, the sequence will cycle, because each value depends only on the one before it. This structure of eventual cycling gives rise to the name "Rho algorithm", owing to similarity to the shape of the Greek character ρ when the values  $x_i\ mod \ p$  are represented as nodes in a [directed graph](https://en.wikipedia.org/wiki/Directed_graph "Directed graph").
+Because the number of possible values for these sequences are finite, both the![](https://latex.codecogs.com/gif.latex?\{x_n\}) sequence, which is mod ![](https://latex.codecogs.com/gif.latex?n) , and ![](https://latex.codecogs.com/gif.latex?\{x_n\&space;mod\&space;p\}) sequence will eventually repeat, even though we do not know the latter. Assume that the sequences behave like random numbers. Due to the [birthday paradox](https://en.wikipedia.org/wiki/Birthday_paradox "Birthday paradox"), the number of![](https://latex.codecogs.com/gif.latex?x_k)before a repetition occurs is expected to be ![](https://latex.codecogs.com/gif.latex?O(\sqrt{N})) , where ![](https://latex.codecogs.com/gif.latex?N)  is the number of possible values. So the sequence  ![](https://latex.codecogs.com/gif.latex?\{x_n\&space;mod\&space;p\})  will likely repeat much earlier than the sequence ![](https://latex.codecogs.com/gif.latex?x_k). Once a sequence has a repeated value, the sequence will cycle, because each value depends only on the one before it. This structure of eventual cycling gives rise to the name "Rho algorithm", owing to similarity to the shape of the Greek character ρ when the values  ![](https://latex.codecogs.com/gif.latex?x_i\&space;mod&space;\&space;p)  are represented as nodes in a [directed graph](https://en.wikipedia.org/wiki/Directed_graph "Directed graph").
 
 ![](https://upload-images.jianshu.io/upload_images/7130568-c336ac454ecd619c.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
-This is detected by the [Floyd's cycle-finding algorithm](https://en.wikipedia.org/wiki/Floyd%27s_cycle-finding_algorithm "Floyd's cycle-finding algorithm"): two nodes$i,j$ are kept. In each step, one moves to the next node in the sequence and the other moves to the one after the next node. After that, it is checked whether $\text{gcd}(x_i-x_j,n)\neq 1$.
-If it is not 1, then this implies that there ris a repetition in the $\{x_k\ mod\ p\}$ swquence
+This is detected by the [Floyd's cycle-finding algorithm](https://en.wikipedia.org/wiki/Floyd%27s_cycle-finding_algorithm "Floyd's cycle-finding algorithm"): two nodes![](https://latex.codecogs.com/gif.latex?i,j) are kept. In each step, one moves to the next node in the sequence and the other moves to the one after the next node. After that, it is checked whether ![](https://latex.codecogs.com/gif.latex?\text{gcd}(x_i-x_j,n)&space;eq&space;1).
+If it is not 1, then this implies that there ris a repetition in the ![](https://latex.codecogs.com/gif.latex?\{x_k\&space;mod\&space;p\}) swquence
 
-This works because if the $x_i\ mod\ p$is the same as$x_j\ mod\ p$, the difference between$x_i,x_j$ is necessarily a multiple of $p$. Although this always happens eventually, the resulting GCD is a divisor of $n$ other than 1\. This may be$n$ itself, since the two sequences might repeat at the same time. In this (uncommon) case the algorithm fails, and can be repeated with a different parameter.
+This works because if the ![](https://latex.codecogs.com/gif.latex?x_i\&space;mod\&space;p)is the same as![](https://latex.codecogs.com/gif.latex?x_j\&space;mod\&space;p), the difference between![](https://latex.codecogs.com/gif.latex?x_i,x_j) is necessarily a multiple of ![](https://latex.codecogs.com/gif.latex?p). Although this always happens eventually, the resulting GCD is a divisor of ![](https://latex.codecogs.com/gif.latex?n) other than 1\. This may be![](https://latex.codecogs.com/gif.latex?n) itself, since the two sequences might repeat at the same time. In this (uncommon) case the algorithm fails, and can be repeated with a different parameter.
 
 ![](https://upload-images.jianshu.io/upload_images/7130568-7c3be944a0cd04df.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
 
@@ -227,39 +227,26 @@ def factor(n):
 
 <a id="markdown-04-euler-function" name="04-euler-function"></a>
 ## 0.4. Euler function
-Euler function, denoted as $\phi(n)$, mapping  n as the number of number which is smaller than n and is the co-prime of n.
+Euler function, denoted as ![](https://latex.codecogs.com/gif.latex?\phi(n)), mapping  n as the number of number which is smaller than n and is the co-prime of n.
 
-e.g.: $\phi(3)=2$ since 1,2 are coprimes of 3 and smaller than 3,   $\phi(4)=2$ ,(1,3)
+e.g.: ![](https://latex.codecogs.com/gif.latex?\phi(3)=2) since 1,2 are coprimes of 3 and smaller than 3,   ![](https://latex.codecogs.com/gif.latex?\phi(4)=2) ,(1,3)
 
 Euler function is a kind of productive function and has two properties as follows:
-1. $\phi(p^k) = p^k-p^{k-1}$, where p is a prime
-2. $\phi(mn) = \phi(m)*\phi(n)$ where $(m,n)=1$
+1. ![](https://latex.codecogs.com/gif.latex?\phi(p^k)&space;=&space;p^k-p^{k-1}), where p is a prime
+2. ![](https://latex.codecogs.com/gif.latex?\phi(mn)&space;=&space;\phi(m)*\phi(n)) where ![](https://latex.codecogs.com/gif.latex?(m,n)=1)
 
-Thus, for every narural number *n*, we can evaluate $\phi(n)$ using the following method.
+Thus, for every narural number *n*, we can evaluate ![](https://latex.codecogs.com/gif.latex?\phi(n)) using the following method.
 1. factorize n:  
-$$n = \prod _{i=1}^{l}  p_i^{k_i}$$, where $p_i$ is a prime and $k_i,l > 0$ .
-2. calculate $\phi(n) $ using the two properties.
+![](https://latex.codecogs.com/gif.latex?n&space;=&space;\prod&space;_{i=1}^{l}&space;p_i^{k_i}), where ![](https://latex.codecogs.com/gif.latex?p_i) is a prime and ![](https://latex.codecogs.com/gif.latex?k_i,l&space;>&space;0) .
+2. calculate ![](https://latex.codecogs.com/gif.latex?\phi(n)) using the two properties.
 
-$$
-\begin{aligned}
-\phi(n) &=\phi( \prod _{i=1}^{l}  p_i^{k_i}) \\
-           &=\prod _{i=1}^{l} \phi(  p_i^{k_i}) \\ 
-           &=\prod _{i=1}^{l} ( p_i^{k_i}-p_i^{ {k_i}-1})\\ 
-           &=\prod _{i=1}^{l}p_i^{k_i} \prod _{i=1}^{l} ( 1-\frac{1}{p_i})\\ 
-           &=n \prod _{i=1}^{l} ( 1-\frac{1}{p_i})\\ 
-\end{aligned}
-$$
+![](https://latex.codecogs.com/gif.latex?&space;\begin{aligned}&space;\phi(n)&space;&=\phi(&space;\prod&space;_{i=1}^{l}&space;p_i^{k_i})&space;\\&space;&=\prod&space;_{i=1}^{l}&space;\phi(&space;p_i^{k_i})&space;\\&space;&=\prod&space;_{i=1}^{l}&space;(&space;p_i^{k_i}-p_i^{&space;{k_i}-1})\\&space;&=\prod&space;_{i=1}^{l}p_i^{k_i}&space;\prod&space;_{i=1}^{l}&space;(&space;1-\frac{1}{p_i})\\&space;&=n&space;\prod&space;_{i=1}^{l}&space;(&space;1-\frac{1}{p_i})\\&space;\end{aligned}&space;)
 
-And , $\sigma(n)$ represents the sum of all factors of n.
-e.g. : $\sigma(9) = 1+3+9 = 14$
-$$
-\begin{aligned}
-\sigma(n) &= \prod _{i=1}^{l} \sum_{j=0}^{k_i} p_i^j \\ 
-           &=\prod _{i=1}^{l} \frac{p_i^{k_i+1}-1}{p_i-1}\\ 
-\end{aligned}
-$$
+And , ![](https://latex.codecogs.com/gif.latex?\sigma(n)) represents the sum of all factors of n.
+e.g. : ![](https://latex.codecogs.com/gif.latex?\sigma(9)&space;=&space;1+3+9&space;=&space;14)
+![](https://latex.codecogs.com/gif.latex?&space;\begin{aligned}&space;\sigma(n)&space;&=&space;\prod&space;_{i=1}^{l}&space;\sum_{j=0}^{k_i}&space;p_i^j&space;\\&space;&=\prod&space;_{i=1}^{l}&space;\frac{p_i^{k_i+1}-1}{p_i-1}\\&space;\end{aligned}&space;)
 
-A `perfect number` _n_ is defined as $\sigma(n) = 2n$
+A `perfect number` _n_ is defined as ![](https://latex.codecogs.com/gif.latex?\sigma(n)&space;=&space;2n)
 The following is the implementation of this two functions.
 
 ```python
@@ -280,7 +267,7 @@ def sigma(n):
 ## 0.5. Modulo equation  
 The following codes can solve a linear, group modulo equation. More details and explanations will be supplied if I am not too busy.
 
-Note that I use `--` to represent $\equiv$ in the python codes.
+Note that I use `--` to represent ![](https://latex.codecogs.com/gif.latex?\equiv) in the python codes.
 ![](https://upload-images.jianshu.io/upload_images/7130568-be31bdaf6b67f883.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
 
 
