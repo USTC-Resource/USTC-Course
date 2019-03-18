@@ -85,11 +85,12 @@ def genIndex(path,dirs,files,htmlTemp = HTML):
             #<hr>\n<span style="color:orange;text-align:center;">Read  Me</span>\n<hr>\n
             md = '\n<h1 style="color:red;text-align:center;">Read Me</h1>\n'+f.read()
     cur = getPath(path)
-    dirLst = genDirectoryList(path,dirs)
-    fileLst = genFileList(path,files)
-    cont = htmlTemp.format(DOWNLOAD=DOWNLOAD+path,cur=cur,dirLst = dirLst,fileLst = fileLst,readme=md2html(md))
     tar = os.path.join(TARDIR ,path)
     if not os.path.exists(tar):os.mkdir(tar)
+
+    dirLst = genDirectoryList(path,dirs)
+    fileLst = genFileList(path,files,tar)
+    cont = htmlTemp.format(DOWNLOAD=DOWNLOAD+path,cur=cur,dirLst = dirLst,fileLst = fileLst,readme=md2html(md))
     filename = os.path.join(tar, NAME)
     with open(filename,'w') as f:
         f.write(cont)
@@ -106,10 +107,16 @@ def getPath(path):
     return '/'.join(res[::-1])
 
 LIITEM = '<li><a href="{path}"><i class="fa fa-{icon}"></i>&nbsp;{name}</a></li>'
-def genFileList(path,files):
-    keys=[i for i in files if i[0]!='.']
-    link= {i:os.path.join(path,i) for i in keys}
-    lst = [LIITEM.format(icon=getIcon(key),name = key+'---({})'.format(getSize(link[key])),path = os.path.join(PATH,link[key])) for key in keys]
+def genFileList(path,files,tar = TARDIR):
+    files = [i for i in files if not i.startswith('.')]
+    link = {}
+    for k in files:
+        if k.endswith('.md'):
+            shutil.copy(os.path.join(path,k),tar)
+            link[k] = k[:-3] + '.html'
+        else:
+            link[k] = os.path.join(PATH,path,k)
+    lst = [LIITEM.format(icon=getIcon(key),name = key+'---({})'.format(getSize(os.path.join(path,key))),path = link[key]) for key in files]
     if lst==[]: lst.append('<li><i class="fa fa-meh-o"></i>&nbsp;None</li>')
     return '\n'.join(lst)
 
