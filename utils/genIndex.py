@@ -84,6 +84,7 @@ def genIndex(path,dirs,files,htmlTemp = HTML):
         with open(os.path.join(path,'README.md'),'r',errors='ignore') as f :
             #<hr>\n<span style="color:orange;text-align:center;">Read  Me</span>\n<hr>\n
             md = '\n<h1 style="color:red;text-align:center;">Read Me</h1>\n'+f.read()
+        files.remove('README.md')
     cur = getPath(path)
     tar = os.path.join(TARDIR ,path)
     if not os.path.exists(tar):os.mkdir(tar)
