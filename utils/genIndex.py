@@ -32,38 +32,28 @@ def md2html(s):
 
 
 def getFmt():
-    dic = {}
-    sound_suf = ['file-audio', ['mp3', 'wave', 'snd', 'aif', 'wav']]
-    movie_suf = ['file-video', ['mp4', 'avi', 'mov', 'swf']]
-    zip_suf = [
-        'file-archive', ['zip', 'rar', '7z', 'tar', 'gz', 'bz', 'jar', 'z']
-    ]
-    word_suf = ['file-word', ['doc', 'docx']]
-    excel_suf = ['file-excel', ['xls', 'xlt']]
-    ppt_suf = [
-        'file-powerpoint', ['ppt', 'pptx', 'pps', 'pptx', 'ppa', 'ppam']
-    ]
-    pdf_suf = ['file-pdf', ['pdf']]
-    pic_suf = ['file-image', ['bmp', 'gif', 'png', 'jpg', 'jpeg', 'pic']]
-    code_suf = [
-        'file',
-        [
+    dic = {
+        'file-audio': ['mp3', 'wave', 'snd', 'aif', 'wav'],
+        'file-video': ['mp4', 'avi', 'mov', 'swf'],
+        'file-archive': ['zip', 'rar', '7z', 'tar', 'gz', 'bz', 'jar', 'z'],
+        'file-word': ['doc', 'docx'],
+        'file-excel': ['xls', 'xlt'],
+        'file-powerpoint': ['ppt', 'pptx', 'pps', 'pptx', 'ppa', 'ppam'],
+        'file-pdf': ['pdf'],
+        'file-image': ['bmp', 'gif', 'png', 'jpg', 'jpeg', 'pic'],
+        'file-code': [
             'c', 'o', 'h', 'sh', 'cc', 'm', 'cpp', 'py', 'lisp', 'scala',
             'rust', 'java'
-        ]
-    ]
-    lst_suf = [
-        sound_suf, movie_suf, zip_suf, word_suf, excel_suf, ppt_suf, pdf_suf,
-        pic_suf, code_suf
-    ]
-
-    for lst in lst_suf:
-        suf, li = lst
-        for i in li:
-            dic[i] = suf
-    dic['dir'] = 'folder'
-    dic['other'] = 'pencil-square-o'
-    return dic
+        ],
+        'file-import': ['md'],
+    }
+    FMT_DIC = {}
+    for i, li in dic.items():
+        for suf in li:
+            FMT_DIC[suf] = i
+    FMT_DIC['dir'] = 'folder'
+    FMT_DIC['other'] = 'file'
+    return FMT_DIC
 
 
 FMT_DIC = getFmt()
@@ -115,7 +105,7 @@ def genIndex(path, dirs, files, htmlTemp=HTML):
             #<hr>\n<span style="color:orange;text-align:center;">Read  Me</span>\n<hr>\n
             md = '\n<h1 style="color:red;text-align:center;">Read Me</h1>\n' + f.read(
             )
-        files.remove('README.md')
+            files.remove('README.md')
     cur = getPath(path)
     tar = os.path.join(TARDIR, path)
     if not os.path.exists(tar): os.mkdir(tar)
