@@ -29,7 +29,7 @@ HTML = '''
 
 <div>
   <h2>
-    <a href="../index.html">&nbsp;&nbsp;<i class="fa fa-backward">Backward </i>&nbsp;</a>
+    <a href="../index.html">&nbsp;&nbsp;<i class="fas fa-backward"></i>&nbsp;</a>
     :/{cur}
   </h2>
 </div>
@@ -39,7 +39,7 @@ HTML = '''
 - 点击 Files 的链接下载二进制文件
 - 或者打开文本文件(markdown 文件经过渲染)
 
-<h2> Directories &nbsp; <a href="{DOWNLOAD}" style="color:red;text-decoration:underline;" target="_black"><i class="fa fa-download"></i></a></h2>
+<h2> Directories &nbsp; <a href="{DOWNLOAD}" style="color:red;text-decoration:underline;" target="_black"><i class="fas fa-download"></i></a></h2>
 
 <ul>{dirLst}</ul>
 
@@ -48,8 +48,8 @@ HTML = '''
 
 ---
 <div style="text-decration:underline;display:inline">
-  <a href="https://github.com/USTC-Resource/USTC-Course.git" target="_blank" rel="external"><i class="fa fa-github-alt"></i>&nbsp; GitHub</a>
-  <a href="mailto:&#122;huheqin1@gmail.com?subject=反馈与建议" style="float:right" target="_blank" rel="external"><i class="fa fa-envelope"></i>&nbsp; Feedback</a>
+  <a href="https://github.com/USTC-Resource/USTC-Course.git" target="_blank" rel="external"><i class="fab fa-github"></i>&nbsp; GitHub</a>
+  <a href="mailto:&#122;huheqin1@gmail.com?subject=反馈与建议" style="float:right" target="_blank" rel="external"><i class="fas fa-envelope"></i>&nbsp; Feedback</a>
 </div>
 ---
 

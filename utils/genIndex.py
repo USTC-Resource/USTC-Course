@@ -136,7 +136,7 @@ def genIndex(path, dirs, files, htmlTemp=HTML):
 def getPath(path):
     lst = path.split(os.path.sep)
     lst = lst[::-1]
-    lst.append('<i class="fa fa-home"></i>')
+    lst.append('<i class="fas fa-home"></i>')
     url = 'index.html'
     res = []
     for i in lst:
@@ -145,7 +145,7 @@ def getPath(path):
     return '/'.join(res[::-1])
 
 
-LIITEM = '<li><a href="{path}"><i class="fa fa-{icon}"></i>&nbsp;{name}</a></li>'
+LIITEM = '<li><a href="{path}"><i class="fas fa-{icon}"></i>&nbsp;{name}</a></li>'
 
 
 def genFileList(path, files, tar=TARDIR):
@@ -163,7 +163,7 @@ def genFileList(path, files, tar=TARDIR):
             name=key + '---({})'.format(getSize(os.path.join(path, key))),
             path=link[key]) for key in files
     ]
-    if lst == []: lst.append('<li><i class="fa fa-meh-o"></i>&nbsp;None</li>')
+    if lst == []: lst.append('<li><i class="fas fa-meh"></i>&nbsp;None</li>')
     return '\n'.join(lst)
 
 
@@ -174,7 +174,7 @@ def genDirectoryList(path, dirs):
         LIITEM.format(icon=FMT_DIC['dir'], name=key, path=link[key])
         for key in keys
     ]
-    if lst == []: lst.append('<li><i class="fa fa-meh-o"></i>&nbsp;None</li>')
+    if lst == []: lst.append('<li><i class="fas fa-meh"></i>&nbsp;None</li>')
     return '\n'.join(lst)
 
 
