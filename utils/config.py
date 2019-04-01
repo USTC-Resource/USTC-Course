@@ -22,17 +22,16 @@ IGNORE = ['utils','docs','__pycache__','_config.yml']
 DOWNLOAD = 'http://downgit.zhoudaxiaa.com/#/home?url=https://github.com/'+OWNER+'/'+REPO+'/tree/'+BRANCH+'/'
 
 HTML = '''
-<!--
 <head>
     <meta http-equiv="content-type" content="text/html; charset=utf-8">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css" integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous">
     <title> 中国科学技术大学课程资源</title>
 </head>
--->
 # 中国科学技术大学课程资源
 
 <div>
   <h2>
-    <a href="../index.html">&nbsp;&nbsp;<i class="fa fa-level-up">back </i>&nbsp;&nbsp;</a>
+    <a href="../index.html">&nbsp;&nbsp;<i class="fa fa-level-up">back </i>&nbsp;</a>
     :/{cur}
   </h2>
 </div>
@@ -51,7 +50,7 @@ HTML = '''
 ---
 <div style="text-decration:underline;display:inline">
   <a href="https://github.com/USTC-Resource/USTC-Course.git" target="_blank" rel="external"><i class="fa fa-github"></i>&nbsp; GitHub</a>
-  <a href="mailto:&#122;huheqin1@gmail?subject=反馈与建议" style="float:right" target="_blank" rel="external"><i class="fa fa-envelope"></i>&nbsp; Feedback</a>
+  <a href="mailto:&#122;huheqin1@gmail.com?subject=反馈与建议" style="float:right" target="_blank" rel="external"><i class="fa fa-envelope"></i>&nbsp; Feedback</a>
 </div>
 ---
 
