@@ -8,7 +8,7 @@ class point:
         self.x=x
         self.y=y
     def __neg__(self):
-        return pont(-self.x, -self.y)
+        return point(-self.x, -self.y)
     def __len__(self):
         return self.norm(2)
     def __lt__(self,p):
