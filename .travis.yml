@@ -11,9 +11,10 @@ env:
 
 install:
   - pip install --upgrade pip
-  - pip install markdown pypinyin
+  - pip install flake8 markdown pypinyin
 
 script:
+  - flake8 . --count --select=E9,F63,F72,F82 --show-source --statistics
   - python utils/genReadme.py
   - python utils/genIndex.py
 
