@@ -68,7 +68,7 @@ class graph:
     def __getitem__(self, i):
         return self.vertexs[i]
 
-    def __setitem__(self,i, x):
+    def __setitem__(self, i, x):
         self.vertexs[i] = x
 
     def __iter__(self):

@@ -1,24 +1,22 @@
-language: python3
-sudo: required
-python: 
-  - "3.6"
+language: python
+python: "3.6"
 
-notifications:
-  email:
-    recipients:
-      - zhuheqin1@gmail.com
-    on_success: change # default: change
-    on_failure: always # default: always
+branches:
+  only:
+    - master
+
+env:
+  # Github Pages
+  - GH_REF: github.com/USTC-Resource/USTC-Course
 
 install:
-  - sudo apt-get install python3 -y
-  - sudo apt-get install python3-pip -y
-  - sudo pip3 install markdown 
-  - sudo pip3 install pypinyin
+  - pip install --upgrade pip
+  - pip install flake8 markdown pypinyin
 
 script:
-  - python3 utils/genReadme.py
-  - python3 utils/genIndex.py
+  - flake8 . --count --select=E9,F63,F72,F82 --show-source --statistics
+  - python utils/genReadme.py
+  - python utils/genIndex.py
 
 after_script:
   # Build Master Repository(Coding Pages) 
@@ -31,15 +29,9 @@ after_script:
   - git commit -m "Travis-CI Update pages with build $TRAVIS_BUILD_NUMBER"
   - git push -f "https://${GH_TOKEN}@${GH_REF}" master:gh-pages
 
-addons:
-  apt:
-    update: true
-
-branches:
-  only:
-    - master
-env:
- global:
-   # Github Pages
-   - GH_REF: github.com/USTC-Resource/USTC-Course
-
+notifications:
+  email:
+    recipients:
+      - zhuheqin1@gmail.com
+    on_success: change # default: change
+    on_failure: always # default: always
