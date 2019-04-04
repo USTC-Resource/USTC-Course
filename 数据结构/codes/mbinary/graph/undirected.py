@@ -56,7 +56,7 @@ class graph:
         self.edges = {}
     def __getitem__(self,i): 
         return self.vertexs[i]
-    def __setitem__(selfi,x):
+    def __setitem__(self,i,x):
         self.vertexs[i]= x
     def __iter__(self):
         return iter(self.vertexs)
