@@ -29,9 +29,9 @@ from collections import namedtuple
 
 NON = sympy.Symbol('~')
 CONTAIN = sympy.Symbol('>')
-AND = sympy .Symbol('&')
-OR = sysmpy.Symbol('|')
-EQUAL = sysmpy.Symbol('-')
+AND = sympy.Symbol('&')
+OR = sympy.Symbol('|')
+EQUAL = sympy.Symbol('-')
 LEFT = sympy.Symbol('(')
 RIGHT = sympy.Symbol(')')
 
