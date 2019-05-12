@@ -15,7 +15,7 @@ TARDIR = 'docs'
 if not os.path.exists(TARDIR):
     TARDIR = 'docs'
 
-IGNORE = ['utils', 'docs', '__pycache__', '_config.yml']
+IGNORE = ['utils', 'docs', '__pycache__', '_config.yml','images']
 
 DOWNLOAD = 'http://downgit.zhoudaxiaa.com/#/home?url=https://github.com/' + OWNER + '/' + REPO + '/tree/' + BRANCH + '/'
 
@@ -59,7 +59,10 @@ HTML = '''
 #* 非zip, 非以'.'开头的文件多于 3 个的目录下都有个 zip 文件：`-DIRECTORY 目录下的\d+个文件.zip`,包含当前目录下的一些文件, 这样方便大家一键下载. (在 git commit前, 运行 `./before__commit.sh`可以自动生成)
 
 README = r'''
+![](images/logo.png)
+
 # 中国科学技术大学课程资源
+
 [![Stars](https://img.shields.io/github/stars/USTC-Resource/USTC-Course.svg?label=Stars&style=social)](https://github.com/USTC-Resource/USTC-Course/stargazers)
 [![Forks](https://img.shields.io/github/forks/USTC-Resource/USTC-Course.svg?label=Forks&style=social)](https://github.com/USTC-Resource/USTC-Course/network/members)
 [![Build](https://travis-ci.org/USTC-Resource/USTC-Course.svg?branch=master)](https://travis-ci.org/USTC-Resource/USTC-Course?branch=master)
@@ -136,7 +139,7 @@ course
 └ README.md
 ```
 # 课程关系
-![](https://user-images.githubusercontent.com/29198767/53245024-851b1280-36e7-11e9-9d22-7ee65446c68a.png)
+![](images/course.png)
 
 更多信息可以下载[官网的培养方案](https://www.teach.ustc.edu.cn/education/241.html/attachment/14-215%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%AD%A6%E9%99%A2-2013)
 
