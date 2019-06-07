@@ -10,12 +10,16 @@
 
 ### 1.1.2. 运行
 当前目录下的所有 python 代码按如下格式执行
+
 `python3 lab*.py <IMG_PATH>`
+
 如
+
 `python3 lab1.py images/lena.bmp`
 
 
 <div align="center"><h1>实验内容</h1>  </div>
+
 ## 2.1. 图像的点处理
 ### 2.1.1. 灰度的线性变换
 输入斜率，截距， 进行一维线性变换
