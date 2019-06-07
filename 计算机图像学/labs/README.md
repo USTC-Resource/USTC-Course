@@ -91,3 +91,33 @@
 结果如下
 ![](result/lab4-rect1.png)
 ![](result/lab4-rect2.png)
+
+
+## 实验总结
+- 使用 python 的话，img 像素值类型为 `uint8`， 直接相加减可能造成 溢出， 结果在 mod 256 的域中, 所以在可能出现溢出的情况下，我在前面用 `0+` 后面的结果，这样可以将类型提升为 int 的运算而不会出现溢出。
+- 在实现滤波器的,更新窗口的时候，我只更新变换的列， 只需要 O(w) 的复杂度，如果更新整个窗口，需要 O(w^2) 的复杂度。 
+- 对于 c++ 实现的 快速傅里叶变换，接口定义如下
+```c++
+typedef complex<double> comp ;
+
+class dft
+{
+public:
+    dft();
+    ~dft();
+    bool dft1d(vector<comp>&, vector<comp> const &);
+    bool dft2d(vector<comp>&, vector<comp> const &);
+    bool idft1d(vector<comp>&, vector<comp> const &);
+    bool dft::_dft2d(vector<vector<comp>>& dst, vector<vector<comp>> const &src,bool isInvert=false)
+    bool dft::dft2d(vector<vector<comp>>& dst, vector<vector<comp>> const &src)
+    bool dft::idft2d(vector<vector<comp>>& dst, vector<vector<comp>> const &src)
+}; 
+```
+实现的思路是：
+首先实现 一维的 dft, idft。 使用 快速傅里叶算法 fft,
+对每一层， 计算倒序数，进行计算，一个 log(n) 层，每一层计算 n次， 则一维 fft时间复杂度为 `O(nlog(n))`
+然后利用傅里叶变换的可分离性，计算二维 傅里叶变换2d dft
+可以先对每行进行 1d dft, 然后对每列进行 1d dft
+逆变换同理。
+
+

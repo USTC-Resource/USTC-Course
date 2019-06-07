@@ -1,5 +1,5 @@
 import sys
-from random import randint
+from random import random
 from collections import Iterable
 
 import cv2
@@ -8,11 +8,10 @@ import matplotlib as mpl
 from matplotlib import pyplot as plt
 
 
-def noise(img):
+def noise(img, rate=0.03):
     '''3% 的椒盐噪音'''
     img2 = np.zeros(img.shape, img.dtype)
     n, m = img.shape
-    rate = 3
     mn = 255
     mx = 0
     for i in range(n):
@@ -23,8 +22,8 @@ def noise(img):
                 mx = img[i][j]
     for i in range(n):
         for j in range(m):
-            if randint(1, 100) <= rate:
-                if randint(0, 1) == 0:
+            if random() <= rate:
+                if random() <= 0.5:
                     img2[i][j] = mn
                 else:
                     img2[i][j] = mx
