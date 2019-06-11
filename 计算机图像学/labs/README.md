@@ -1,5 +1,5 @@
 # <div align="center">2019 计算机图像学实验</div>
->说明. 最开始我用的 cpp 实现了实验内容(代码在 `cpp`目录下），以及自己实现了 fft, 1d,2d。但是配置 windows上的 opencv 环境失败，代码只经过了静态语法检测，可能还有些地方有 bug。 后来我用的 python 重新实现了除 FFT 的所有算法，并将结果记录如下
+>说明. 最开始我用的 cpp 实现了实验内容(代码在 `cpp`目录下）。但是配置 opencv 环境失败，代码只经过了静态语法检测，可能还有些地方有 bug。 后来我用的 python 重新实现了所有算法，并将结果记录如下
 
 ## 1.1. 使用
 ### 1.1.1. 环境
@@ -90,31 +90,20 @@
 - Fourier 反变换 幅度，并显示
 - Fourier 反变换 相位，并显示
 
-- 对于 c++ 实现的 快速傅里叶变换，接口定义如下
-```c++
-typedef complex<double> comp ;
 
-class dft
-{
-public:
-    dft();
-    ~dft();
-    bool dft1d(vector<comp>&, vector<comp> const &);
-    bool dft2d(vector<comp>&, vector<comp> const &);
-    bool idft1d(vector<comp>&, vector<comp> const &);
-    bool dft::_dft2d(vector<vector<comp>>& dst, vector<vector<comp>> const &src,bool isInvert=false)
-    bool dft::dft2d(vector<vector<comp>>& dst, vector<vector<comp>> const &src)
-    bool dft::idft2d(vector<vector<comp>>& dst, vector<vector<comp>> const &src)
-}; 
-```
 实现的思路是：
-- 首先实现 一维的变换 dft1d, idft1d。 
+- 首先实现 一维的变换 fft, ifft。 
 
 - 使用 快速傅里叶算法 fft,对每一层， 计算倒序数，进行计算，一个 log(n) 层，每一层计算 n次， 则一维 fft时间复杂度为 `O(nlog(n))`
 
-- 然后利用傅里叶变换的可分离性，计算二维 傅里叶变换dft2d, idft2d: 先对每行进行一维变换, 然后对每列进行一维变换。
+- 然后利用傅里叶变换的可分离性，计算二维 傅里叶变换 fft2, ifft2: 先对每行进行一维变换, 然后对每列进行一维变换。
+
+
+傅里叶变换的总结可见[我的这篇文章](https://mbinary.xyz/dft.html)
 
 结果如下
+
 ![](result/lab4-rect1.png)
 ![](result/lab4-rect2.png)
+
 
