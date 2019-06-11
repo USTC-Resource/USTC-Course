@@ -46,7 +46,7 @@ if __name__ == '__main__':
     img2 = roberts(img)
     img3 = prewitt(img)
     cmap = mpl.cm.gray
-    plt.figure(figsize=(10, 10))
+    plt.figure(figsize=(8, 8))
 
     plt.subplot(221),plt.xticks([]), plt.yticks([])
     plt.imshow(img, cmap=cmap)

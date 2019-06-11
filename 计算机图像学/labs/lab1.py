@@ -103,7 +103,7 @@ if __name__ == '__main__':
 
     cmap = mpl.cm.gray # mpl.cm.gray_r   'gray'
 
-    plt.figure(figsize=(10, 10))
+    plt.figure(figsize=(8, 8))
 
     plt.subplot(321), plt.imshow(img,cmap=cmap), plt.title('origin'),plt.xticks([]), plt.yticks([])
     plt.subplot(322), plt.imshow(img2,cmap=cmap), plt.title(f'tran k={k},b={b}'),plt.xticks([]), plt.yticks([])
