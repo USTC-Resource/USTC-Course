@@ -14,3 +14,4 @@ do.sh
 *.pyc
 a.out
 __pycache__/**
+.DS_Store
