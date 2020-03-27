@@ -1,0 +1,417 @@
+\documentclass[a4paper,12pt]{article}
+\def\pgfsysdriver{pgfsys-dvipdfm.def}
+
+\usepackage[no-math]{fontspec}
+\usepackage{indentfirst}
+\usepackage{xunicode}% provides unicode character macros
+\usepackage{xltxtra} % provides some fixes/extras
+\usepackage{tikz}
+
+\XeTeXlinebreaklocale "zh"
+\XeTeXlinebreakskip = 0pt plus 1pt minus 0.1pt
+
+\usepackage{amsmath}
+\usepackage{bm}
+\usepackage{mathpazo}
+\usepackage{color}
+\usepackage{mdwlist}
+\usepackage{paralist}
+\usepackage{enumerate}
+\usepackage{url}
+\usepackage{latexsym}
+\usepackage{hyperref}
+\usepackage{ulem}
+\hypersetup{
+    colorlinks,
+    citecolor=blue,
+    filecolor=black,
+    linkcolor=black,
+    urlcolor=brown
+}
+
+
+\setlength{\parskip}{5pt}
+%\newfontfamily\hei{"黑体"}
+
+%\setmainfont{msyhl.ttc}
+\setmainfont[BoldFont={Deng.ttf}]{Dengl.ttf}
+%\setmainfont[BoldFont={timesbd.ttf},ItalicFont={timesi.ttf}]{times.ttf}
+%\setmathfont{BRADHITC.TTF}
+
+
+\begin{document}
+\title{Notes of Computational Method}
+\author{Michael Zhu}
+\date{2016.6.8}
+\maketitle
+\tableofcontents
+\newpage
+\setcounter{section}{-1}
+\section{绪论}
+\paragraph{绝对误差} $e=x^*-x$
+\subparagraph{绝对误差限} $|e|\le\epsilon$
+\paragraph{相对误差} $e_r=\frac{x^*-x}{x^*}$
+\subparagraph{相对误差限} $|e_r|\le\epsilon_r$
+\paragraph{产生误差的主要原因} 原始误差，截断误差，舍入误差
+\paragraph{有效位数} 当 $x$ 的误差限为某一位的半个单位，则这一位到第一个非零位的位数称为 $x$ 的有效位数。
+\paragraph{向量范数（$L_p$）} $\|\mathbf{X}\|_p=\left(\sum_{i=1}^{n}|x_i|^p\right)^{1/p},\ \ 1\le p\le\infty.$
+\subparagraph{$p=1$} $\|\mathbf{X}\|_1=\sum_{i=1}^{n}|x_i|$
+\subparagraph{$p=2$} $\|\mathbf{X}\|_2=\sqrt{\sum_{i=1}^{n}|x_i|^2}$
+\subparagraph{$p=\infty$} $\|\mathbf{X}\|_\infty=\underset{1\le i\le n}{\mathrm{max}}\{|x_i|\}$
+\paragraph{矩阵范数} $\|\mathsf{A}\|=\underset{\underset{x\not=0}{x\in\mathbf{R}^n}}{\mathrm{sup}}\frac{\|\mathsf{A}\mathbf{X}\|}{\|\mathbf{X}\|}$\quad 或 \quad $\|\mathsf{A}\|=\underset{\underset{\|x\|=1}{x\in\mathbf{R}^n}}{\mathrm{sup}}\|\mathsf{A}\mathbf{X}\|$
+\subparagraph{$p=1$} $\|\mathsf{A}\|_1=\underset{1\le j\le n}{\mathrm{max}}\sum_{i=1}^{n}|a_{i\ j}|$
+\subparagraph{$p=\infty$} $\|\mathsf{A}\|_\infty=\underset{1\le i\le n}{\mathrm{max}}\sum_{j=1}^{n}|a_{i\ j}|$
+\subparagraph{$p=2$} $\|\mathsf{A}\|_2=(\rho(\mathsf{A}^TA))^{1/2}$
+\subparagraph{谱半径} $\rho(\mathsf{A})=\underset{i}{\mathrm{max}}\{|\lambda_i|\}$
+\subparagraph{Euclid/Schur} $\|\mathsf{A}\|_E=(\sum_{i=1}^{n}\sum_{j=1}^{n}|a_{ij}|^2)^{1/2}$ 
+\paragraph{特征值与范数} $|\lambda|\le\|\mathsf{A}\|$,\ \ $\rho(\mathsf{A})\le\|\mathsf{A}\|.$
+
+\section{插值}
+\subsection{Lagrange 插值}
+\paragraph{基函数}
+\[
+l_i(x)=\underset{\underset{j\not=i}{0\le j\le n}}{\prod} \frac{x-x_j}{x_i-x_j}
+\]
+\paragraph{插值多项式}
+\[
+L_n(x)=\sum_{i=0}^{n}l_i(x)f(x_i)
+\]
+\paragraph{误差}
+\[
+R_n(x)=\frac{f^{(n+1)}(\xi)}{(n+1)!}\prod_{i=0}^{n}(x-x_i),\quad \xi\in[a,b]
+\]
+\subsection{Newton 插值}
+\paragraph{差商}
+\subparagraph{一阶差商} $f[x_0,x_1]=\frac{f(x_1)-f(x_0)}{x_1-x_0}$
+\subparagraph{$k$ 阶差商} $f[x_0,x_1,\cdots,x_n]=\frac{f[x_1,x_2,\cdots,x_k]-f[x_0,x_1,\cdots,x_{k-1}]}{x_k-x_0}$
+\paragraph{差商的性质}
+\subparagraph{(1)} 
+\[
+f[x_0,x_1,\cdots,x_n]=\sum_{i=0}^{k}\frac{f(x_i)}{\underset{\underset{j\not=i}{0\le j\le n}}{\prod}(x_i-x_j)}
+\]
+\subparagraph{(2)} 差商与节点的顺序无关。 
+\paragraph{插值多项式}
+\[
+N(x)=f(x_0)+(x-x_0)f[x_0,x_1]+\cdots+(x-x_0)(x-x_1)\cdots(x-x_{n-1})f[x_0,x_1,\cdots,x_n]
+\]
+\[
+N(x)=f(x_0)+\sum_{k=1}^{n}f[x_0,\cdots,x_k](x-x_0)\cdots(x-x^{k-1})
+\]
+\paragraph{误差}
+\[
+R_n(x)=\frac{f^{(n+1)}(\xi)}{(n+1)!}\prod_{i=0}^{n}(x-x_i)=f[x,x_0,\cdots,x_n]\prod_{i=0}^{n}(x-x_i)
+\]
+和 Lagrange 插值多项式的误差完全相等。
+\subsection{Hermite 插值}
+\paragraph{构造基函数}
+\paragraph{利用差商构造}
+\subsection{分段插值}
+\paragraph{插值函数}
+\[
+p_i(x)=\frac{x-x_{i+1}}{x_i-x_{i+1}}f(x_i)+\frac{x-x_{i}}{x_{i+1}-x_{i}}f(x_{i+1}),\quad x_i\le x\le x_{i+1}
+\]
+\subsection{三次样条函数}
+
+\section{数值微分和数值积分}
+\subsection{数值微分}
+\subsubsection{差商和数值微分}
+\paragraph{差商}
+\subparagraph{向前差商}
+\[
+f'(x_0)\approx\frac{f(x_0+h)-f(x_0)}{h}
+\]
+\[
+R(x)=-\frac{h}{2}f''(\xi)=O(h)
+\]
+\subparagraph{向后差商}
+\[
+f'(x_0)\approx\frac{f(x_0)-f(x_0-h)}{h}
+\]
+\[
+R(x)=\frac{h}{2}f''(\xi)=O(h)
+\]
+\subparagraph{中心差商}
+\[
+f'(x_0)\approx\frac{f(x_0+h)-f(x_0-h)}{2h}
+\]
+\[
+R(x)=-\frac{h^2}{6}f'''(\xi)=O(h^2)
+\]
+\subsubsection{插值型数值微分}
+\[
+f(x)\approx L_n(x)=\sum_{i=0}^{n}l_i(x)f(x_i)
+\]
+\[
+f'(x)\approx L'_n(x)=\sum_{i=0}^{n}l'_i(x)f(x_i)
+\]
+\paragraph{误差项}
+\[
+R(x)=\frac{\mathrm{d}}{\mathrm{d}x}\left(\frac{f^{(n+1)}(\xi)}{(n+1)!}\prod_{i=0}^{n}(x-x_i)\right)
+\]
+\paragraph{$x=x_j$}
+\[
+f'(x_j)=\sum_{i=0}^{n}l'_i(x_j)f(x_i)
+\]
+\[
+R(x_j)=\underset{\underset{i\not=j}{i=0}}{\prod^n}(x_j-x_i)\frac{f^{(n+1)}(\xi)}{(n+1)!}
+\]
+\subsection{数值积分}
+\paragraph{代数精度}
+\[
+E_n(x^k)=I(x^k)-I_n(x^k)=0,\ \ k=0,1,\cdots,m
+\]
+而
+\[
+E_n(x^{m+1})\not=0,
+\]
+则称 $I_n(f)$ 具有 $m$ 阶代数精度。具有 $m$ 阶代数精度时，对于任意不高于 $m$ 次的多项式 $f(x)$ 都有 $I(f)=I_n(f)$.
+\subsubsection{插值型数值微分}
+\[
+\int_a^b f(x)\mathrm{d}x\approx\int_a^b L_n(x)\mathrm{d}x=\sum_{i=0}^n\left[\int_a^b l_i(x)\mathrm{d}x\right]f(x_i)
+\]
+\paragraph{误差}
+\[
+E_n(f)=\int_a^bf[x_0,x_1,\cdots,x_n,x]\prod_{i=0}^{n}(x-x_i)\mathrm{d}x
+\]
+\subsubsection{Newton-Cotes 积分}
+取等距节点，亦即对区间做等距剖分。\par
+$n$ 为偶数时具有 $n+1$ 阶代数精度，$n$ 为奇数时具有 $n$ 阶代数精度。
+\paragraph{梯形积分}
+\[
+T(f)=\frac{b-a}{2}[f(a)+f(b)]
+\]
+\[
+E_1(x)=-\frac{f''(\eta)}{12}(b-a)^3
+\]
+具有 $1$ 阶代数精度。
+\paragraph{Simpson 积分}
+\[
+S(f)=\frac{b-a}{6}[f(a)+4f(\frac{a+b}{2})+f(b)]
+\]
+\[
+E_2(f)=-\frac{f^{(4)}(\eta)}{2880}(b-a)^5
+\]
+具有 $3$ 阶代数精度。
+\subsection{复化数值积分}
+\subsubsection{复化梯形积分}
+\[
+T(h)=T_n(f)=h\left[\frac{1}{2}f(a)+\sum_{i=0}^{n-1}f(a+ih)+\frac{1}{2}f(b)\right]
+\]
+\paragraph{截断误差}
+\[
+E_n(f)=-\frac{(b-a)^3}{12n^2}f''(\xi)\sim O(h^2)
+\]
+\subsubsection{复化 Simpson 积分}
+\[
+S_n(f)=\frac{h}{3}\left[f(a)+4\sum_{i=0}^{m-1}f(x_{2i+1})+2\sum_{i=1}^{m-1}f(x_{2i})+f(b)\right]
+\]
+\paragraph{截断误差}
+\[
+E_n(f)=-\frac{(b-a)^5}{180n^4}f^{(4)}(\xi)\sim O(h^4)
+\]
+\subsubsection{Romberg 算法}
+\[
+R_{k,j}=R_{k,j-1}+\frac{R_{k,j-1}-R_{k-1,j-1}}{4^{j-1}-1}
+\]
+\subsection{重积分计算}
+\subsubsection{复化梯形积分}
+$$\int_a^b\int_c^df(x,y)\mathrm{d}x\mathrm{d}y\approx hk\sum_i\sum_jc_{ij}f(x_i,y_j),\ \ c_{ij}=\Bigg\{
+\begin{array}{ll}
+\frac{1}{4},&\text{角点}\\
+\frac{1}{2},&\text{边点}\\
+1,&\text{内点}\\
+\end{array}$$
+\subsection{Gauss 型积分}
+$2n-1$ 阶代数精度, $n$ 个节点的最高代数精度。
+\[
+G_n(f)=\frac{(b-a)}{2}\sum_{i=1}^{n}\alpha_i^{(n)}f\left(\frac{(a+b)+(b-a)x_i^{(n)}}{2}\right)
+\]
+\section{曲线拟合的最小二乘法}
+\subsection{线性拟合与二次拟合}
+\subsubsection{线性拟合}
+$$\left(\begin{array}{cc}
+m&\sum x_i\\
+\sum x_i&\sum x_i^2
+\end{array}\right)
+\left(\begin{array}{c}
+a\\
+b
+\end{array}\right)=
+\left(\begin{array}{c}
+\sum y_i\\
+\sum x_iy_i
+\end{array}\right)$$
+\subsubsection{二次拟合}
+$$\left(\begin{array}{ccc}
+m&\sum x_i&\sum x_i^2\\
+\sum x_i&\sum x_i^2&\sum x_i^3\\
+\sum x_i^2&\sum x_i^3&\sum x_i^4
+\end{array}\right)
+\left(\begin{array}{c}
+a_0\\
+a_1\\
+a_2
+\end{array}\right)=
+\left(\begin{array}{c}
+\sum y_i\\
+\sum x_iy_i\\
+\sum x_i^2y_i
+\end{array}\right)$$\par
+更高次如法炮制即可。\par
+非多项式可以做代换，但代换后不一定满足平方误差极小。
+\subsection{解矛盾方程组}
+求 $\|\mathsf{A}\alpha-Y\|^2$ 的极小问题\textbf{等价}于解方程组
+\[
+\mathsf{A}^T\mathsf{A}\alpha=\mathsf{A}^TY.
+\]
+\section{非线性方程求根}
+\subsection{二分法}
+算法简单，但是有局限：只能算出其中一个、必须要求 $f(a)f(b)<0$ 、只能计算实根。
+\subsection{迭代法}
+\paragraph{基本步骤}
+\subparagraph{(1)}构造等价形式 $f(x)=0\Leftrightarrow x=\phi(x)$
+\subparagraph{(2)}取合适初值 $x_0$ 构造迭代序列 $x_{k+1}=\phi(x_k)$
+\subparagraph{(3)}若极限不存在，可以考虑更换初值或者迭代格式。
+\paragraph{压缩映射定理}
+$\phi(x)\in C^1[a,b]$ 满足 
+\[
+a\le\phi(x)\le b,x\in[a,b]
+\] 
+及 
+\[
+\exists\, 0<L<1,\forall x\in[a,b], |\phi'(x)|\le L,
+\]
+则 $\phi(x)$ 不动点唯一，且对于 $x_0\in[a,b]$ 的迭代序列有误差估计
+\[
+|x^*-x_k|\le\frac{L^k}{1-L}|x_1-x_0|.
+\]
+\subsection{Newton 法}
+\[
+x_{k+1}=x_k-\frac{f(x_k)}{f'(x_k)}
+\]\par
+对于单重根一定收敛，为二阶方法。\par
+对于 $p$ 重根，为一阶迭代方法，但可取以下格式，则仍为二阶方法
+\[
+x_{k+1}=x_k-p\frac{f(x_k)}{f'(x_k)}
+\]
+\subsection{弦截法}
+用差商代替导数
+\[
+x_{k+1}=x_k-f(x_k)\frac{x_k-x_{k-1}}{f(x_k)-f(x_{k-1})}
+\]\par
+为 $1.618$ 阶迭代方法。
+\subsection{方程组的 Newton 法}
+\[
+\mathbf{X}_{k+1}=\mathbf{X}_{k}-\mathsf{J}^{-1}(\mathbf{X}_{k})F(\mathbf{X}_{k})
+\]\par
+若
+\[
+\|\mathsf{J}(\mathbf{X})\|_\infty\le L<1,
+\]
+则迭代收敛。
+\section{线性方程组--直接法}
+\subsection{消元法}
+\subsubsection{Gauss 消元法}
+系数矩阵化为上三角，然后回代求解。\par
+运算量为 $O(n^3)$\par
+可行的充要条件是 $\mathsf{A}$ 的各阶顺序主子式不为零。\par
+对角元很小会导致舍入误差的扩散。
+\subsubsection{列主元消元法}
+将第 $k$ 列第 $k$ 到 $n$ 个元素绝对值最大的元素放在对角位置，然后进行消元。\par
+相较于 Gauss 消元法只增加了选列主元和交换两行元素的过程。
+\subsubsection{Gauss-Jordan 消元法}
+将系数矩阵进一步化为对角矩阵。\par
+但是化为对角阵的工作量略大于回代求解。
+\subsection{直接分解法}
+\subsubsection{Dolittle 分解}
+$\mathsf{L}$ 为单位下三角阵（对角元为 $1$ ）， $\mathsf{U}$ 为上三角阵。\par
+\paragraph{计算步骤}
+$\mathsf{U}$ 第一行，$\mathsf{L}$ 第一列，$\mathsf{U}$ 第二行，$\mathsf{L}$ 第二列……
+\subsubsection{Courant 分解}
+$\mathsf{L}$ 为下三角阵， $\mathsf{U}$ 为单位上三角阵。\par
+\paragraph{计算步骤}
+$\mathsf{L}$ 第一列， $\mathsf{U}$ 第一行，$\mathsf{L}$ 第二列， $\mathsf{U}$ 第二行……
+\subsubsection{追赶法}
+\section{线性方程组--迭代法}
+\subsection{Jacobi 迭代}
+
+\subsection{Gauss-Seidel 迭代}
+
+\subsection{松弛迭代}
+
+\subsection{逆矩阵计算}
+
+\section{矩阵的特征值与特征向量}
+\subsection{幂法}
+求解按模最大特征值。
+\subsubsection{幂法的计算}
+选取初值 $\mathbf{X}^{(0)}$, 构造向量序列
+\[
+\mathbf{X}^{(k)}=\mathsf{A}\mathbf{X}^{(k-1)}
+\]\par
+若相邻两个向量各个分量比趋于一个常数，则
+\[
+\lambda_1\approx x_i^{(k+1)}/x_i^{(k)},\ \ \mathbf{v}_1\approx\mathbf{X}^{(k)}
+\]\par
+若奇偶序列各个分量比分别趋向于常数，则
+\[
+\lambda_1\approx\sqrt{x_i^{(k+1)}/x_i^{(k-1)}},\ \ \mathbf{v}_{1,2}\approx\mathbf{X}^{(k+1)}\pm\lambda_1\mathbf{X}^{(k)}
+\]
+\subsubsection{幂法的规范运算}
+避免计算溢出、归零。
+\[
+\mathbf{Y}^{(k)}=\mathbf{X}^{(k)}/\|\mathbf{X}^{(k)}\|_{\infty},\ \ \mathbf{X}^{(k+1)}=\mathsf{A}\mathbf{Y}^{(k)}\ \ (k=0,1,\cdots)
+\]
+\subsection{反幂法}
+求解按模最小特征值。
+\subsection{实对称矩阵的 Jacobi 法}
+
+\subsection{QR 方法}
+
+\section{常微分方程数值解}
+\paragraph{基本步骤}
+\subparagraph{(1)}对区间做分割
+\subparagraph{(2)}建立求格点函数的差分方程（递推关系式）：微分、积分、 Taylor 展开
+\subparagraph{(3)}解差分方程，求出格点函数
+\subsection{Euler 公式}
+\subsubsection{基于数值差商}
+\paragraph{向前差商}
+\[
+y_{n+1}=y_n+hf(x_n,y_n)
+\]\par
+是一步显式格式。
+\paragraph{向后差商}
+\[
+y_{n+1}=y_n+hf(x_{n+1},y_{n+1})
+\]\par
+是一步隐式格式，需要用迭代求解。\par
+Picard 迭代格式\[
+y^{(0)}_{n+1}=y_n+hf(x_{n},y_{n}),\ \ y^{(k+1)}_{n+1}=y_n+hf(x_{n+1},y^{(k)}_{n+1})
+\]
+\paragraph{中心差商}
+\[
+y_{n+1}=y_{n-1}+2hf(x_n,y_n)
+\]\par
+是二步二阶格式，因为该格式不稳定，故不采用。
+\subsubsection{基于数值积分}
+\[
+y(x_{n+1})=y(x_n)+\int_{x_n}^{x_{n+1}}f(x,y)\mathrm{d}x
+\]
+\paragraph{矩形近似}
+可得到向前/向后差分公式。
+\paragraph{梯形近似}
+\[
+y(x_{n+1})=y(x_n)+\frac{h}{2}(f(x_n,y_n)+f(x_{n+1},y_{n+1}))
+\]\par
+此为隐式格式。\par
+一般先用其他较为粗糙的显式公式预估初始值，再用隐式公式迭代一次进行修正，称为\textbf{预估-校正过程}。
+\paragraph{改进后的 Eular 公式}
+\[
+y(x_{n+1})=y(x_n)+\frac{h}{2}(f(x_n,y_n)+f(x_{n+1},y_{n}+hf(x_n,y_n)))
+\]
+\subsection{Runge-Kutta 法}
+
+\subsection{线性多步法}
+
+\subsection{常微分方程组的数值解法}
+\end{document}
