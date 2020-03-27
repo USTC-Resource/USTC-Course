@@ -107,6 +107,7 @@ course
     * [utils](./utils)
     * [Web-信息处理与应用](./Web-信息处理与应用)
     * [微机原理与系统](./微机原理与系统)
+    * [自然语言处理](./自然语言处理)
 
 # 贡献投稿
 ## [GitHub Commit](https://github.com/USTC-Resource/USTC-Course/graphs/contributors)
