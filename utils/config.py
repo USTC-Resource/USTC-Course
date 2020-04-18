@@ -89,7 +89,7 @@ README = r'''
 
 # 反馈方式
 - [issue](https://github.com/USTC-Resource/USTC-Course/issues/new)
-- <a href="mailto:&#122;huheqin1@gmail.com?subject=%E5%8F%8D%E9%A6%88%E4%B8%8E%E5%BB%BA%E8%AE%AE">email</a>
+- <a href="mailto:&#122;huheqin1@gmail.com?subject=USTC-Course-FeedBack">email</a>
 
 # 资料下载
 [戳我(●'◡'●)](https://ustc-resource.github.io/USTC-Course)
@@ -149,20 +149,14 @@ course
 {index}
 
 # 贡献投稿
+>感谢您的贡献~
+
+
 ## [GitHub Commit](https://github.com/USTC-Resource/USTC-Course/graphs/contributors)
-[![](https://sourcerer.io/fame/mbinary/USTC-Resource/USTC-Course/images/0)](https://sourcerer.io/fame/mbinary/USTC-Resource/USTC-Course/links/0)[![](https://sourcerer.io/fame/mbinary/USTC-Resource/USTC-Course/images/1)](https://sourcerer.io/fame/mbinary/USTC-Resource/USTC-Course/links/1)[![](https://sourcerer.io/fame/mbinary/USTC-Resource/USTC-Course/images/2)](https://sourcerer.io/fame/mbinary/USTC-Resource/USTC-Course/links/2)[![](https://sourcerer.io/fame/mbinary/USTC-Resource/USTC-Course/images/3)](https://sourcerer.io/fame/mbinary/USTC-Resource/USTC-Course/links/3)[![](https://sourcerer.io/fame/mbinary/USTC-Resource/USTC-Course/images/4)](https://sourcerer.io/fame/mbinary/USTC-Resource/USTC-Course/links/4)[![](https://sourcerer.io/fame/mbinary/USTC-Resource/USTC-Course/images/5)](https://sourcerer.io/fame/mbinary/USTC-Resource/USTC-Course/links/5)[![](https://sourcerer.io/fame/mbinary/USTC-Resource/USTC-Course/images/6)](https://sourcerer.io/fame/mbinary/USTC-Resource/USTC-Course/links/6)[![](https://sourcerer.io/fame/mbinary/USTC-Resource/USTC-Course/images/7)](https://sourcerer.io/fame/mbinary/USTC-Resource/USTC-Course/links/7)
+[![](https://sourcerer.io/fame/mbinary/USTC-Resource/USTC-Course/images/0)](https://sourcerer.io/fame/mbinary/USTC-Resource/USTC-Course/links/0)[![](https://sourcerer.io/fame/mbinary/USTC-Resource/USTC-Course/images/1)](https://sourcerer.io/fame/mbinary/USTC-Resource/USTC-Course/links/1)[![](https://sourcerer.io/fame/mbinary/USTC-Resource/USTC-Course/images/2)](https://sourcerer.io/fame/mbinary/USTC-Resource/USTC-Course/links/2)[![](https://sourcerer.io/fame/mbinary/USTC-Resource/USTC-Course/images/3)](https://sourcerer.io/fame/mbinary/USTC-Resource/USTC-Course/links/3)[![](https://sourcerer.io/fame/mbinary/USTC-Resource/USTC-Course/images/4)](https://sourcerer.io/fame/mbinary/USTC-Resource/USTC-Course/links/4)[![](https://sourcerer.io/fame/mbinary/USTC-Resource/USTC-Course/images/5)](https://sourcerer.io/fame/mbinary/USTC-Resource/USTC-Course/links/5)[![](https://sourcerer.io/fame/mbinary/USTC-Resource/USTC-Course/images/6)](https://sourcerer.io/fame/mbinary/USTC-Resource/USTC-Course/links/6)[![](https://sourcerer.io/fame/mbinary/USTC-Resource/USTC-Course/images/7)](https://sourcerer.io/fame/mbinary/USTC-Resource/USTC-Course/links/7)[![](https://sourcerer.io/fame/mbinary/USTC-Resource/USTC-Course/images/8)](https://sourcerer.io/fame/mbinary/USTC-Resource/USTC-Course/links/8)
 
 ## 内容创作者
-- mbinary
-- Lyncien
-- kingzevin
-- ksqsf
-- cclauss
-- 吴颖文
-- 童世炜
-- 熊家靖
-
-如果遗漏了你的名字，可自行 PR 或者联系贡献者。
+在对应文件内容或者文件名中标明。若有疏漏，请修改后 pull request 或者提出 issue.
 
 欢迎大家的参与与贡献^_^
 * 仅接受学生原创的或者获得授权的资源
