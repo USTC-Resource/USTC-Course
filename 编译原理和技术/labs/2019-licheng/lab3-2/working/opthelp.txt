@@ -1,0 +1,651 @@
+OVERVIEW: llvm .bc -> .bc modular optimizer and analysis printer
+
+USAGE: opt [options] <input bitcode file>
+
+OPTIONS:
+
+Color Options:
+
+  -color                                            - Use colors in output (default=autodetect)
+
+General options:
+
+  -O0                                               - Optimization level 0. Similar to clang -O0
+  -O1                                               - Optimization level 1. Similar to clang -O1
+  -O2                                               - Optimization level 2. Similar to clang -O2
+  -O3                                               - Optimization level 3. Similar to clang -O3
+  -Os                                               - Like -O2 with extra optimizations for size. Similar to clang -Os
+  -Oz                                               - Like -Os but reduces code size further. Similar to clang -Oz
+  -S                                                - Write output as LLVM assembly
+  -aarch64-neon-syntax                              - Choose style of NEON code to emit from AArch64 backend:
+    =generic                                        -   Emit generic NEON assembly
+    =apple                                          -   Emit Apple-style NEON assembly
+  -addrsig                                          - Emit an address-significance table
+  -amdgpu-dpp-combine                               - Enable DPP combiner
+  -amdgpu-dump-hsa-metadata                         - Dump AMDGPU HSA Metadata
+  -amdgpu-enable-global-sgpr-addr                   - Enable use of SGPR regs for GLOBAL LOAD/STORE instructions
+  -amdgpu-enable-merge-m0                           - Merge and hoist M0 initializations
+  -amdgpu-sdwa-peephole                             - Enable SDWA peepholer
+  -amdgpu-spill-sgpr-to-smem                        - Use scalar stores to spill SGPRs if supported by subtarget
+  -amdgpu-verify-hsa-metadata                       - Verify AMDGPU HSA Metadata
+  -amdgpu-vgpr-index-mode                           - Use GPR indexing mode instead of movrel for vector indexing
+  -analyze                                          - Only perform analysis, no optimization
+  -arm-add-build-attributes                         - 
+  -arm-implicit-it                                  - Allow conditional instructions outdside of an IT block
+    =always                                         -   Accept in both ISAs, emit implicit ITs in Thumb
+    =never                                          -   Warn in ARM, reject in Thumb
+    =arm                                            -   Accept in ARM, reject in Thumb
+    =thumb                                          -   Warn in ARM, emit implicit ITs in Thumb
+  -asm-instrumentation                              - Instrumentation of inline assembly and assembly source files
+    =none                                           -   no instrumentation at all
+    =address                                        -   instrument instructions with memory arguments
+  -asm-show-inst                                    - Emit internal instruction representation to assembly file
+  -atomic-counter-update-promoted                   - Do counter update using atomic fetch add  for promoted counters only
+  Optimizations available:
+    -X86CondBrFolding                               - X86CondBrFolding
+    -aa                                             - Function Alias Analysis Results
+    -aa-eval                                        - Exhaustive Alias Analysis Precision Evaluator
+    -aarch64-a57-fp-load-balancing                  - AArch64 A57 FP Load-Balancing
+    -aarch64-branch-targets                         - AArch64 Branch Targets
+    -aarch64-ccmp                                   - AArch64 CCMP Pass
+    -aarch64-collect-loh                            - AArch64 Collect Linker Optimization Hint (LOH)
+    -aarch64-condopt                                - AArch64 CondOpt Pass
+    -aarch64-copyelim                               - AArch64 redundant copy elimination pass
+    -aarch64-dead-defs                              - AArch64 Dead register definitions
+    -aarch64-expand-pseudo                          - AArch64 pseudo instruction expansion pass
+    -aarch64-fix-cortex-a53-835769-pass             - AArch64 fix for A53 erratum 835769
+    -aarch64-jump-tables                            - AArch64 compress jump tables pass
+    -aarch64-ldst-opt                               - AArch64 load / store optimization pass
+    -aarch64-local-dynamic-tls-cleanup              - AArch64 Local Dynamic TLS Access Clean-up
+    -aarch64-prelegalizer-combiner                  - Combine AArch64 machine instrs before legalization
+    -aarch64-promote-const                          - AArch64 Promote Constant Pass
+    -aarch64-simd-scalar                            - AdvSIMD Scalar Operation Optimization
+    -aarch64-simdinstr-opt                          - AArch64 SIMD instructions optimization pass
+    -aarch64-speculation-hardening                  - AArch64 speculation hardening pass
+    -aarch64-stp-suppress                           - AArch64 Store Pair Suppression
+    -adce                                           - Aggressive Dead Code Elimination
+    -add-discriminators                             - Add DWARF path discriminators
+    -aggressive-instcombine                         - Combine pattern based expressions
+    -alignment-from-assumptions                     - Alignment from assumptions
+    -alloca-hoisting                                - Hoisting alloca instructions in non-entry blocks to the entry block
+    -always-inline                                  - Inliner for always_inline functions
+    -amdgpu-aa                                      - AMDGPU Address space based Alias Analysis
+    -amdgpu-aa-wrapper                              - AMDGPU Address space based Alias Analysis Wrapper
+    -amdgpu-always-inline                           - AMDGPU Inline All Functions
+    -amdgpu-annotate-kernel-features                - Add AMDGPU function attributes
+    -amdgpu-annotate-uniform                        - Add AMDGPU uniform metadata
+    -amdgpu-argument-reg-usage-info                 - Argument Register Usage Information Storage
+    -amdgpu-atomic-optimizer                        - AMDGPU atomic optimizations
+    -amdgpu-codegenprepare                          - AMDGPU IR optimizations
+    -amdgpu-fix-function-bitcasts                   - Fix function bitcasts for AMDGPU
+    -amdgpu-inline                                  - AMDGPU Function Integration/Inlining
+    -amdgpu-isel                                    - AMDGPU DAG->DAG Pattern Instruction Selection
+    -amdgpu-lower-enqueued-block                    - Lower OpenCL enqueued blocks
+    -amdgpu-lower-intrinsics                        - Lower intrinsics
+    -amdgpu-lower-kernel-arguments                  - AMDGPU Lower Kernel Arguments
+    -amdgpu-lower-kernel-attributes                 - AMDGPU IR optimizations
+    -amdgpu-perf-hint                               - Analysis if a function is memory bound
+    -amdgpu-promote-alloca                          - AMDGPU promote alloca to vector or LDS
+    -amdgpu-rewrite-out-arguments                   - AMDGPU Rewrite Out Arguments
+    -amdgpu-simplifylib                             - Simplify well-known AMD library calls
+    -amdgpu-unify-divergent-exit-nodes              - Unify divergent function exit nodes
+    -amdgpu-unify-metadata                          - Unify multiple OpenCL metadata due to linking
+    -amdgpu-usenative                               - Replace builtin math calls with that native versions.
+    -amode-opt                                      - Optimize addressing mode
+    -argpromotion                                   - Promote 'by reference' arguments to scalars
+    -arm-codegenprepare                             - ARM IR optimizations
+    -arm-cp-islands                                 - ARM constant island placement and branch shortening pass
+    -arm-execution-domain-fix                       - ARM Execution Domain Fix
+    -arm-ldst-opt                                   - ARM load / store optimization pass
+    -arm-parallel-dsp                               - Transform loops to use DSP intrinsics
+    -arm-prera-ldst-opt                             - ARM pre- register allocation load / store optimization pass
+    -arm-pseudo                                     - ARM pseudo instruction expansion pass
+    -asan                                           - AddressSanitizer: detects use-after-free and out-of-bounds bugs.
+    -asan-module                                    - AddressSanitizer: detects use-after-free and out-of-bounds bugs.ModulePass
+    -assumption-cache-tracker                       - Assumption Cache Tracker
+    -atomic-expand                                  - Expand Atomic instructions
+    -barrier                                        - A No-Op Barrier Pass
+    -basicaa                                        - Basic Alias Analysis (stateless AA impl)
+    -basiccg                                        - CallGraph Construction
+    -bdce                                           - Bit-Tracking Dead Code Elimination
+    -block-freq                                     - Block Frequency Analysis
+    -bool-ret-to-int                                - Convert i1 constants to i32/i64 if they are returned
+    -bounds-checking                                - Run-time bounds checking
+    -bpf-mi-zext-elim                               - BPF MachineSSA Peephole Optimization
+    -branch-prob                                    - Branch Probability Analysis
+    -break-crit-edges                               - Break critical edges in CFG
+    -called-value-propagation                       - Called Value Propagation
+    -callsite-splitting                             - Call-site splitting
+    -canonicalize-aliases                           - Canonicalize aliases
+    -cfl-anders-aa                                  - Inclusion-Based CFL Alias Analysis
+    -cfl-steens-aa                                  - Unification-Based CFL Alias Analysis
+    -check-debugify                                 - Check debug info from -debugify
+    -check-debugify-function                        - Check debug info from -debugify-function
+    -chr                                            - Reduce control height in the hot paths
+    -codegenprepare                                 - Optimize for code generation
+    -consthoist                                     - Constant Hoisting
+    -constmerge                                     - Merge Duplicate Global Constants
+    -constprop                                      - Simple constant propagation
+    -coro-cleanup                                   - Lower all coroutine related intrinsics
+    -coro-early                                     - Lower early coroutine intrinsics
+    -coro-elide                                     - Coroutine frame allocation elision and indirect calls replacement
+    -coro-split                                     - Split coroutine into a set of functions driving its state machine
+    -correlated-propagation                         - Value Propagation
+    -cost-model                                     - Cost Model Analysis
+    -cross-dso-cfi                                  - Cross-DSO CFI
+    -cseinfo                                        - Analysis containing CSE Info
+    -da                                             - Dependence Analysis
+    -dce                                            - Dead Code Elimination
+    -deadargelim                                    - Dead Argument Elimination
+    -deadarghaX0r                                   - Dead Argument Hacking (BUGPOINT USE ONLY; DO NOT USE)
+    -debugify                                       - Attach debug info to everything
+    -debugify-function                              - Attach debug info to a function
+    -delinearize                                    - Delinearization
+    -demanded-bits                                  - Demanded bits analysis
+    -dfsan                                          - DataFlowSanitizer: dynamic data flow analysis.
+    -die                                            - Dead Instruction Elimination
+    -div-rem-pairs                                  - Hoist/decompose integer division and remainder
+    -divergence                                     - Legacy Divergence Analysis
+    -domfrontier                                    - Dominance Frontier Construction
+    -domtree                                        - Dominator Tree Construction
+    -dot-callgraph                                  - Print call graph to 'dot' file
+    -dot-cfg                                        - Print CFG of function to 'dot' file
+    -dot-cfg-only                                   - Print CFG of function to 'dot' file (with no function bodies)
+    -dot-dom                                        - Print dominance tree of function to 'dot' file
+    -dot-dom-only                                   - Print dominance tree of function to 'dot' file (with no function bodies)
+    -dot-postdom                                    - Print postdominance tree of function to 'dot' file
+    -dot-postdom-only                               - Print postdominance tree of function to 'dot' file (with no function bodies)
+    -dot-regions                                    - Print regions of function to 'dot' file
+    -dot-regions-only                               - Print regions of function to 'dot' file (with no function bodies)
+    -dse                                            - Dead Store Elimination
+    -dwarfehprepare                                 - Prepare DWARF exceptions
+    -early-cse                                      - Early CSE
+    -early-cse-memssa                               - Early CSE w/ MemorySSA
+    -ee-instrument                                  - Instrument function entry/exit with calls to e.g. mcount() (pre inlining)
+    -elim-avail-extern                              - Eliminate Available Externally Globals
+    -esan                                           - EfficiencySanitizer: finds performance issues.
+    -expand-reductions                              - Expand reduction intrinsics
+    -expandmemcmp                                   - Expand memcmp() to load/stores
+    -external-aa                                    - External Alias Analysis
+    -extract-blocks                                 - Extract basic blocks from module
+    -falkor-hwpf-fix                                - Falkor HW Prefetch Fix
+    -falkor-hwpf-fix-late                           - Falkor HW Prefetch Fix Late Phase
+    -flattencfg                                     - Flatten the CFG
+    -float2int                                      - Float to int
+    -forceattrs                                     - Force set function attributes
+    -function-import                                - Summary Based Function Import
+    -functionattrs                                  - Deduce function attributes
+    -gcn-dpp-combine                                - GCN DPP Combine
+    -generic-to-nvvm                                - Ensure that the global variables are in the global address space
+    -global-merge                                   - Merge global variables
+    -globaldce                                      - Dead Global Elimination
+    -globalopt                                      - Global Variable Optimizer
+    -globals-aa                                     - Globals Alias Analysis
+    -globalsplit                                    - Global splitter
+    -guard-widening                                 - Widen guards
+    -gvn                                            - Global Value Numbering
+    -gvn-hoist                                      - Early GVN Hoisting of Expressions
+    -gvn-sink                                       - Early GVN sinking of Expressions
+    -hexagon-bit-simplify                           - Hexagon bit simplification
+    -hexagon-cext-opt                               - Hexagon constant-extender optimization
+    -hexagon-constp                                 - Hexagon Constant Propagation
+    -hexagon-early-if                               - Hexagon early if conversion
+    -hexagon-gen-mux                                - Hexagon generate mux instructions
+    -hexagon-loop-idiom                             - Recognize Hexagon-specific loop idioms
+    -hexagon-nvj                                    - Hexagon NewValueJump
+    -hexagon-packetizer                             - Hexagon Packetizer
+    -hexagon-rdf-opt                                - Hexagon RDF optimizations
+    -hexagon-split-double                           - Hexagon Split Double Registers
+    -hexagon-vextract                               - Hexagon optimize vextract
+    -hexagon-vlcr                                   - Hexagon-specific predictive commoning for HVX vectors
+    -hotcoldsplit                                   - Hot Cold Splitting
+    -hwasan                                         - HWAddressSanitizer: detect memory bugs using tagged addressing.
+    -hwloops                                        - Hexagon Hardware Loops
+    -indirectbr-expand                              - Expand indirectbr instructions
+    -indvars                                        - Induction Variable Simplification
+    -infer-address-spaces                           - Infer address spaces
+    -inferattrs                                     - Infer set function attributes
+    -inline                                         - Function Integration/Inlining
+    -insert-gcov-profiling                          - Insert instrumentation for GCOV profiling
+    -instcombine                                    - Combine redundant instructions
+    -instcount                                      - Counts the various types of Instructions
+    -instnamer                                      - Assign names to anonymous instructions
+    -instrprof                                      - Frontend instrumentation-based coverage lowering.
+    -instruction-select                             - Select target instructions out of generic instructions
+    -instsimplify                                   - Remove redundant instructions
+    -interleaved-access                             - Lower interleaved memory accesses to target specific intrinsics
+    -interleaved-load-combine                       - Combine interleaved loads into wide loads and shufflevector instructions
+    -internalize                                    - Internalize Global Symbols
+    -intervals                                      - Interval Partition Construction
+    -ipconstprop                                    - Interprocedural constant propagation
+    -ipsccp                                         - Interprocedural Sparse Conditional Constant Propagation
+    -irce                                           - Inductive range check elimination
+    -irtranslator                                   - IRTranslator LLVM IR -> MI
+    -iv-users                                       - Induction Variable Users
+    -jump-threading                                 - Jump Threading
+    -lazy-block-freq                                - Lazy Block Frequency Analysis
+    -lazy-branch-prob                               - Lazy Branch Probability Analysis
+    -lazy-value-info                                - Lazy Value Information Analysis
+    -lcssa                                          - Loop-Closed SSA Form Pass
+    -lcssa-verification                             - LCSSA Verifier
+    -legalizer                                      - Legalize the Machine IR a function's Machine IR
+    -libcalls-shrinkwrap                            - Conditionally eliminate dead library calls
+    -licm                                           - Loop Invariant Code Motion
+    -lint                                           - Statically lint-checks LLVM IR
+    -liveintervals                                  - Live Interval Analysis
+    -load-store-vectorizer                          - Vectorize load and store instructions
+    -localizer                                      - Move/duplicate certain instructions close to their use
+    -loop-accesses                                  - Loop Access Analysis
+    -loop-data-prefetch                             - Loop Data Prefetch
+    -loop-deletion                                  - Delete dead loops
+    -loop-distribute                                - Loop Distribution
+    -loop-extract                                   - Extract loops into new functions
+    -loop-extract-single                            - Extract at most one loop into a new function
+    -loop-guard-widening                            - Widen guards (within a single loop, as a loop pass)
+    -loop-idiom                                     - Recognize loop idioms
+    -loop-instsimplify                              - Simplify instructions in loops
+    -loop-interchange                               - Interchanges loops for cache reuse
+    -loop-load-elim                                 - Loop Load Elimination
+    -loop-predication                               - Loop predication
+    -loop-reduce                                    - Loop Strength Reduction
+    -loop-reroll                                    - Reroll loops
+    -loop-rotate                                    - Rotate Loops
+    -loop-simplify                                  - Canonicalize natural loops
+    -loop-simplifycfg                               - Simplify loop CFG
+    -loop-sink                                      - Loop Sink
+    -loop-unroll                                    - Unroll loops
+    -loop-unroll-and-jam                            - Unroll and Jam loops
+    -loop-unswitch                                  - Unswitch loops
+    -loop-vectorize                                 - Loop Vectorization
+    -loop-versioning                                - Loop Versioning
+    -loop-versioning-licm                           - Loop Versioning For LICM
+    -loops                                          - Natural Loop Information
+    -lower-expect                                   - Lower 'expect' Intrinsics
+    -lower-guard-intrinsic                          - Lower the guard intrinsic to normal control flow
+    -loweratomic                                    - Lower atomic intrinsics to non-atomic form
+    -lowerinvoke                                    - Lower invoke and unwind, for unwindless code generators
+    -lowerswitch                                    - Lower SwitchInst's to branches
+    -lowertypetests                                 - Lower type metadata
+    -machine-block-freq                             - Machine Block Frequency Analysis
+    -machine-branch-prob                            - Machine Branch Probability Analysis
+    -machine-domfrontier                            - Machine Dominance Frontier Construction
+    -machine-loops                                  - Machine Natural Loop Construction
+    -machine-trace-metrics                          - Machine Trace Metrics
+    -machinedomtree                                 - MachineDominator Tree Construction
+    -machinepostdomtree                             - MachinePostDominator Tree Construction
+    -make-guards-explicit                           - Lower the guard intrinsic to explicit control flow form
+    -mem2reg                                        - Promote Memory to Register
+    -memcpyopt                                      - MemCpy Optimization
+    -memdep                                         - Memory Dependence Analysis
+    -memoryssa                                      - Memory SSA
+    -mergefunc                                      - Merge Functions
+    -mergeicmps                                     - Merge contiguous icmps into a memcmp
+    -mergereturn                                    - Unify function exit nodes
+    -metarenamer                                    - Assign new names to everything
+    -micromips-reduce-size                          - MicroMips instruction size reduce pass
+    -mips-branch-expansion                          - Expand out of range branch instructions and fix forbidden slot hazards
+    -mips-delay-slot-filler                         - Fill delay slot for MIPS
+    -mips-prelegalizer-combiner                     - Combine Mips machine instrs before legalization
+    -mldst-motion                                   - MergedLoadStoreMotion
+    -module-debuginfo                               - Decodes module-level debug info
+    -module-summary-analysis                        - Module Summary Analysis
+    -msan                                           - MemorySanitizer: detects uninitialized reads.
+    -name-anon-globals                              - Provide a name to nameless globals
+    -nary-reassociate                               - Nary reassociation
+    -newgvn                                         - Global Value Numbering
+    -nvptx-assign-valid-global-names                - Assign valid PTX names to globals
+    -nvptx-lower-aggr-copies                        - Lower aggregate copies, and llvm.mem* intrinsics into loops
+    -nvptx-lower-alloca                             - Lower Alloca
+    -nvptx-lower-args                               - Lower arguments (NVPTX)
+    -nvptx-proxyreg-erasure                         - NVPTX ProxyReg Erasure
+    -nvvm-intr-range                                - Add !range metadata to NVVM intrinsics.
+    -nvvm-reflect                                   - Replace occurrences of __nvvm_reflect() calls with 0/1
+    -objc-arc                                       - ObjC ARC optimization
+    -objc-arc-aa                                    - ObjC-ARC-Based Alias Analysis
+    -objc-arc-apelim                                - ObjC ARC autorelease pool elimination
+    -objc-arc-contract                              - ObjC ARC contraction
+    -objc-arc-expand                                - ObjC ARC expansion
+    -opt-remark-emitter                             - Optimization Remark Emitter
+    -pa-eval                                        - Evaluate ProvenanceAnalysis on all pairs
+    -packets                                        - R600 Packetizer
+    -partial-inliner                                - Partial Inliner
+    -partially-inline-libcalls                      - Partially inline calls to library functions
+    -pgo-icall-prom                                 - Use PGO instrumentation profile to promote indirect calls to direct calls.
+    -pgo-instr-gen                                  - PGO instrumentation.
+    -pgo-instr-use                                  - Read PGO instrumentation profile.
+    -pgo-memop-opt                                  - Optimize memory intrinsic using its size value profile
+    -phi-values                                     - Phi Values Analysis
+    -place-backedge-safepoints-impl                 - Place Backedge Safepoints
+    -place-safepoints                               - Place Safepoints
+    -post-inline-ee-instrument                      - Instrument function entry/exit with calls to e.g. mcount() (post inlining)
+    -postdomtree                                    - Post-Dominator Tree Construction
+    -ppc-expand-isel                                - PowerPC Expand ISEL Generation
+    -ppc-mi-peepholes                               - PowerPC MI Peephole Optimization
+    -ppc-pre-emit-peephole                          - PowerPC Pre-Emit Peephole
+    -ppc-tls-dynamic-call                           - PowerPC TLS Dynamic Call Fixup
+    -pre-isel-intrinsic-lowering                    - Pre-ISel Intrinsic Lowering
+    -print-alias-sets                               - Alias Set Printer
+    -print-bb                                       - Print BB to stderr
+    -print-callgraph                                - Print a call graph
+    -print-callgraph-sccs                           - Print SCCs of the Call Graph
+    -print-cfg-sccs                                 - Print SCCs of each function CFG
+    -print-dom-info                                 - Dominator Info Printer
+    -print-externalfnconstants                      - Print external fn callsites passed constants
+    -print-function                                 - Print function to stderr
+    -print-lazy-value-info                          - Lazy Value Info Printer Pass
+    -print-memdeps                                  - Print MemDeps of function
+    -print-memderefs                                - Memory Dereferenciblity of pointers in function
+    -print-memoryssa                                - Memory SSA Printer
+    -print-module                                   - Print module to stderr
+    -print-mustexecute                              - Instructions which execute on loop entry
+    -print-predicateinfo                            - PredicateInfo Printer
+    -profile-summary-info                           - Profile summary info
+    -prune-eh                                       - Remove unused exception handling info
+    -r600-expand-special-instrs                     - R600ExpandSpecialInstrs
+    -r600cf                                         - R600 Control Flow Finalizer
+    -r600mergeclause                                - R600 Clause Merge
+    -reaching-deps-analysis                         - ReachingDefAnalysis
+    -reassociate                                    - Reassociate expressions
+    -reg2mem                                        - Demote all values to stack slots
+    -regbankselect                                  - Assign register bank of generic virtual registers
+    -regions                                        - Detect single entry single exit regions
+    -rewrite-statepoints-for-gc                     - Make relocations explicit at statepoints
+    -rewrite-symbols                                - Rewrite Symbols
+    -rpo-functionattrs                              - Deduce function attributes in RPO
+    -safe-stack                                     - Safe Stack instrumentation pass
+    -sample-profile                                 - Sample Profile loader
+    -sancov                                         - SanitizerCoverage: TODO.ModulePass
+    -scalar-evolution                               - Scalar Evolution Analysis
+    -scalarize-masked-mem-intrin                    - Scalarize unsupported masked memory intrinsics
+    -scalarizer                                     - Scalarize vector operations
+    -sccp                                           - Sparse Conditional Constant Propagation
+    -scev-aa                                        - ScalarEvolution-based Alias Analysis
+    -scoped-noalias                                 - Scoped NoAlias Alias Analysis
+    -separate-const-offset-from-gep                 - Split GEPs to a variadic base and a constant offset for better CSE
+    -shadow-call-stack                              - Shadow Call Stack
+    -si-annotate-control-flow                       - Annotate SI Control Flow
+    -si-debugger-insert-nops                        - SI Debugger Insert Nops
+    -si-fix-sgpr-copies                             - SI Fix SGPR copies
+    -si-fix-vgpr-copies                             - SI Fix VGPR copies
+    -si-fix-wwm-liveness                            - SI fix WWM liveness
+    -si-fixup-vector-isel                           - SI Fixup Vector ISel
+    -si-fold-operands                               - SI Fold Operands
+    -si-form-memory-clauses                         - SI Form memory clauses
+    -si-i1-copies                                   - SI Lower i1 Copies
+    -si-insert-skips                                - SI insert s_cbranch_execz instructions
+    -si-insert-waitcnts                             - SI Insert Waitcnts
+    -si-load-store-opt                              - SI Load Store Optimizer
+    -si-lower-control-flow                          - SI lower control flow
+    -si-memory-legalizer                            - SI Memory Legalizer
+    -si-mode-register                               - Insert required mode register values
+    -si-optimize-exec-masking                       - SI optimize exec mask operations
+    -si-optimize-exec-masking-pre-ra                - SI optimize exec mask operations pre-RA
+    -si-peephole-sdwa                               - SI Peephole SDWA
+    -si-shrink-instructions                         - SI Shrink Instructions
+    -si-wqm                                         - SI Whole Quad Mode
+    -simple-loop-unswitch                           - Simple unswitch loops
+    -simplifycfg                                    - Simplify the CFG
+    -sink                                           - Code sinking
+    -sjljehprepare                                  - Prepare SjLj exceptions
+    -slotindexes                                    - Slot index numbering
+    -slp-vectorizer                                 - SLP Vectorizer
+    -slsr                                           - Straight line strength reduction
+    -speculative-execution                          - Speculatively execute instructions
+    -sroa                                           - Scalar Replacement Of Aggregates
+    -stack-safety                                   - Stack Safety Analysis
+    -stack-safety-local                             - Stack Safety Local Analysis
+    -strip                                          - Strip all symbols from a module
+    -strip-dead-debug-info                          - Strip debug info for unused symbols
+    -strip-dead-prototypes                          - Strip Unused Function Prototypes
+    -strip-debug-declare                            - Strip all llvm.dbg.declare intrinsics
+    -strip-gc-relocates                             - Strip gc.relocates inserted through RewriteStatepointsForGC
+    -strip-nondebug                                 - Strip all symbols, except dbg symbols, from a module
+    -strip-nonlinetable-debuginfo                   - Strip all debug info except linetables
+    -structurizecfg                                 - Structurize the CFG
+    -t2-reduce-size                                 - Thumb2 instruction size reduce pass
+    -tailcallelim                                   - Tail Call Elimination
+    -targetlibinfo                                  - Target Library Information
+    -targetpassconfig                               - Target Pass Configuration
+    -tbaa                                           - Type-Based Alias Analysis
+    -transform-warning                              - Warn about non-applied transformations
+    -tsan                                           - ThreadSanitizer: detects data races.
+    -tti                                            - Target Transform Information
+    -unreachableblockelim                           - Remove unreachable blocks from the CFG
+    -vec-merger                                     - R600 Vector Reg Merger
+    -verify                                         - Module Verifier
+    -verify-safepoint-ir                            - Safepoint IR Verifier
+    -view-callgraph                                 - View call graph
+    -view-cfg                                       - View CFG of function
+    -view-cfg-only                                  - View CFG of function (with no function bodies)
+    -view-dom                                       - View dominance tree of function
+    -view-dom-only                                  - View dominance tree of function (with no function bodies)
+    -view-postdom                                   - View postdominance tree of function
+    -view-postdom-only                              - View postdominance tree of function (with no function bodies)
+    -view-regions                                   - View regions of function
+    -view-regions-only                              - View regions of function (with no function bodies)
+    -wasm-add-missing-prototypes                    - Add prototypes to prototypes-less functions
+    -wasm-argument-move                             - Move ARGUMENT instructions for WebAssembly
+    -wasm-call-indirect-fixup                       - Rewrite call_indirect argument orderings
+    -wasm-cfg-sort                                  - Reorders blocks in topological order
+    -wasm-cfg-stackify                              - Insert BLOCK and LOOP markers for WebAssembly scopes
+    -wasm-eh-restore-stack-pointer                  - Restore Stack Pointer for Exception Handling
+    -wasm-exception-info                            - WebAssembly Exception Information
+    -wasm-exception-prepare                         - WebAssembly Late Exception Preparation
+    -wasm-explicit-locals                           - Convert registers to WebAssembly locals
+    -wasm-fix-function-bitcasts                     - Fix mismatching bitcasts for WebAssembly
+    -wasm-fix-irreducible-control-flow              - Removes irreducible control flow
+    -wasm-lower-br_unless                           - Lowers br_unless into inverted br_if
+    -wasm-lower-em-ehsjlj                           - WebAssembly Lower Emscripten Exceptions / Setjmp / Longjmp
+    -wasm-lower-global-dtors                        - Lower @llvm.global_dtors for WebAssembly
+    -wasm-mem-intrinsic-results                     - Optimize memory intrinsic result values for WebAssembly
+    -wasm-optimize-live-intervals                   - Optimize LiveIntervals for WebAssembly
+    -wasm-optimize-returned                         - Optimize calls with "returned" attributes for WebAssembly
+    -wasm-peephole                                  - WebAssembly peephole optimizations
+    -wasm-prepare-for-live-intervals                - Fix up code for LiveIntervals
+    -wasm-reg-coloring                              - Minimize number of registers used
+    -wasm-reg-numbering                             - Assigns WebAssembly register numbers for virtual registers
+    -wasm-reg-stackify                              - Reorder instructions to use the WebAssembly value stack
+    -wasm-replace-phys-regs                         - Replace physical registers with virtual registers
+    -wasm-set-p2align-operands                      - Set the p2align operands for WebAssembly loads and stores
+    -wasmehprepare                                  - Prepare WebAssembly exceptions
+    -wholeprogramdevirt                             - Whole program devirtualization
+    -winehprepare                                   - Prepare Windows exceptions
+    -write-bitcode                                  - Write Bitcode
+    -x86-avoid-SFB                                  - Machine code sinking
+    -x86-cf-opt                                     - X86 Call Frame Optimization
+    -x86-cmov-conversion                            - X86 cmov Conversion
+    -x86-domain-reassignment                        - X86 Domain Reassignment Pass
+    -x86-evex-to-vex-compress                       - Compressing EVEX instrs to VEX encoding when possible
+    -x86-execution-domain-fix                       - X86 Execution Domain Fix
+    -x86-fixup-LEAs                                 - X86 LEA Fixup
+    -x86-fixup-bw-insts                             - X86 Byte/Word Instruction Fixup
+    -x86-flags-copy-lowering                        - X86 EFLAGS copy lowering
+    -x86-slh                                        - X86 speculative load hardener
+    -x86-winehstate                                 - Insert stores for EH state numbers
+  -bounds-checking-single-trap                      - Use one trap block per function
+  -code-model                                       - Choose code model
+    =tiny                                           -   Tiny code model
+    =small                                          -   Small code model
+    =kernel                                         -   Kernel code model
+    =medium                                         -   Medium code model
+    =large                                          -   Large code model
+  -codegen-opt-level=<uint>                         - Override optimization level for codegen hooks
+  -cost-kind                                        - Target cost kind
+    =throughput                                     -   Reciprocal throughput
+    =latency                                        -   Instruction latency
+    =code-size                                      -   Code size
+  -cvp-dont-process-adds                            - 
+  -data-layout=<layout-string>                      - data layout string to use
+  -data-sections                                    - Emit data into separate sections
+  -debugger-tune                                    - Tune debug info for a particular debugger
+    =gdb                                            -   gdb
+    =lldb                                           -   lldb
+    =sce                                            -   SCE targets (e.g. PS4)
+  -debugify-each                                    - Start each pass with debugify and end it with check-debugify
+  -debugify-export=<filename>                       - Export per-pass debugify statistics to this file
+  -debugify-quiet                                   - Suppress verbose debugify output
+  -denormal-fp-math                                 - Select which denormal numbers the code is permitted to require
+    =ieee                                           -   IEEE 754 denormal numbers
+    =preserve-sign                                  -   the sign of a  flushed-to-zero number is preserved in the sign of 0
+    =positive-zero                                  -   denormals are flushed to positive zero
+  -disable-debug-info-type-map                      - Don't use a uniquing type map for debug info
+  -disable-inlining                                 - Do not run the inliner pass
+  -disable-loop-unrolling                           - Disable loop unrolling in all relevant passes
+  -disable-loop-vectorization                       - Disable the loop vectorization pass
+  -disable-opt                                      - Do not run any optimization passes
+  -disable-promote-alloca-to-lds                    - Disable promote alloca to LDS
+  -disable-promote-alloca-to-vector                 - Disable promote alloca to vector
+  -disable-simplify-libcalls                        - Disable simplify-libcalls
+  -disable-slp-vectorization                        - Disable the slp vectorization pass
+  -disable-tail-calls                               - Never emit tail calls
+  -do-counter-promotion                             - Do counter register promotion
+  -dwarf-version=<int>                              - Dwarf version
+  -emscripten-cxx-exceptions-whitelist=<string>     - The list of function names in which Emscripten-style exception handling is enabled (see emscripten EMSCRIPTEN_CATCHING_WHITELIST options)
+  -emulated-tls                                     - Use emulated TLS model
+  -enable-cse-in-irtranslator                       - Should enable CSE in irtranslator
+  -enable-cse-in-legalizer                          - Should enable CSE in Legalizer
+  -enable-debugify                                  - Start the pipeline with debugify and end it with check-debugify
+  -enable-emscripten-cxx-exceptions                 - WebAssembly Emscripten-style exception handling
+  -enable-emscripten-sjlj                           - WebAssembly Emscripten-style setjmp/longjmp handling
+  -enable-gvn-memdep                                - 
+  -enable-load-pre                                  - 
+  -enable-loop-simplifycfg-term-folding             - 
+  -enable-name-compression                          - Enable name string compression
+  -enable-no-infs-fp-math                           - Enable FP math optimizations that assume no +-Infs
+  -enable-no-nans-fp-math                           - Enable FP math optimizations that assume no NaNs
+  -enable-no-signed-zeros-fp-math                   - Enable FP math optimizations that assume the sign of 0 is insignificant
+  -enable-no-trapping-fp-math                       - Enable setting the FP exceptions build attribute not to use exceptions
+  -enable-unsafe-fp-math                            - Enable optimizations that may decrease FP precision
+  -exception-model                                  - exception model
+    =default                                        -   default exception handling model
+    =dwarf                                          -   DWARF-like CFI based exception handling
+    =sjlj                                           -   SjLj exception handling
+    =arm                                            -   ARM EHABI exceptions
+    =wineh                                          -   Windows exception model
+    =wasm                                           -   WebAssembly exception handling
+  -expensive-combines                               - Enable expensive instruction combines
+  -f                                                - Enable binary output on terminals
+  -fatal-warnings                                   - Treat warnings as errors
+  -filetype                                         - Choose a file type (not all types are supported by all targets):
+    =asm                                            -   Emit an assembly ('.s') file
+    =obj                                            -   Emit a native object ('.o') file
+    =null                                           -   Emit nothing, for performance testing
+  -float-abi                                        - Choose float ABI type
+    =default                                        -   Target default float ABI type
+    =soft                                           -   Soft float ABI (implied by -soft-float)
+    =hard                                           -   Hard float ABI (uses FP registers)
+  -fp-contract                                      - Enable aggressive formation of fused FP ops
+    =fast                                           -   Fuse FP ops whenever profitable
+    =on                                             -   Only fuse 'blessed' FP ops.
+    =off                                            -   Only fuse FP ops when the result won't be affected.
+  -frame-pointer                                    - Specify frame pointer elimination optimization
+    =all                                            -   Disable frame pointer elimination
+    =non-leaf                                       -   Disable frame pointer elimination for non-leaf frame
+    =none                                           -   Enable frame pointer elimination
+  -function-sections                                - Emit functions into separate sections
+  -funit-at-a-time                                  - Enable IPO. This corresponds to gcc's -funit-at-a-time
+  -gpsize=<uint>                                    - Global Pointer Addressing Size.  The default size is 8.
+  -hash-based-counter-split                         - Rename counter variable of a comdat function based on cfg hash
+  -import-all-index                                 - Import all external functions in index.
+  -incremental-linker-compatible                    - When used with filetype=obj, emit an object file which can be used with an incremental linker
+  -instcombine-code-sinking                         - Enable code sinking
+  -instcombine-guard-widening-window=<uint>         - How wide an instruction window to bypass looking for another guard
+  -instcombine-max-num-phis=<uint>                  - Maximum number phis to handle in intptr/ptrint folding
+  -instcombine-maxarray-size=<uint>                 - Maximum array size considered when doing a combine
+  -instrprof-atomic-counter-update-all              - Make all profile counter updates atomic (for testing only)
+  -internalize-public-api-file=<filename>           - A file containing list of symbol names to preserve
+  -internalize-public-api-list=<list>               - A list of symbol names to preserve
+  -iterative-counter-promotion                      - Allow counter promotion across the whole loop nest.
+  -load=<pluginfilename>                            - Load the specified plugin
+  -load-pass-plugin=<string>                        - Load passes from plugin library
+  -march=<string>                                   - Architecture to generate code for (see --version)
+  -mattr=<a1,+a2,-a3,...>                           - Target specific attributes (-mattr=help for details)
+  -max-counter-promotions=<int>                     - Max number of allowed counter promotions
+  -max-counter-promotions-per-loop=<uint>           - Max number counter promotions per loop to avoid increasing register pressure too much
+  -mc-relax-all                                     - When used with filetype=obj, relax all fixups in the emitted object file
+  -mcpu=<cpu-name>                                  - Target a specific cpu type (-mcpu=help for details)
+  -meabi                                            - Set EABI type (default depends on triple):
+    =default                                        -   Triple default EABI version
+    =4                                              -   EABI version 4
+    =5                                              -   EABI version 5
+    =gnu                                            -   EABI GNU
+  -memop-size-large=<uint>                          - Set large value thresthold in memory intrinsic size profiling. Value of 0 disables the large value profiling.
+  -memop-size-range=<string>                        - Set the range of size in memory intrinsic calls to be profiled precisely, in a format of <start_val>:<end_val>
+  -merror-missing-parenthesis                       - Error for missing parenthesis around predicate registers
+  -merror-noncontigious-register                    - Error for register names that aren't contigious
+  -mhvx                                             - Enable Hexagon Vector eXtensions
+    =v60                                            -   Build for HVX v60
+    =v62                                            -   Build for HVX v62
+    =v65                                            -   Build for HVX v65
+    =v66                                            -   Build for HVX v66
+    =                                               -   
+  -mips-compact-branches                            - MIPS Specific: Compact branch policy.
+    =never                                          -   Do not use compact branches if possible.
+    =optimal                                        -   Use compact branches where appropiate (default).
+    =always                                         -   Always use compact branches if possible.
+  -mips16-constant-islands                          - Enable mips16 constant islands.
+  -mips16-hard-float                                - Enable mips16 hard float.
+  -mno-compound                                     - Disable looking for compound instructions for Hexagon
+  -mno-fixup                                        - Disable fixing up resolved relocations for Hexagon
+  -mno-ldc1-sdc1                                    - Expand double precision loads and stores to their single precision counterparts
+  -mno-pairing                                      - Disable looking for duplex instructions for Hexagon
+  -module-hash                                      - Emit module hash
+  -module-summary                                   - Emit module summary index
+  -mtriple=<string>                                 - Override target triple for module
+  -mwarn-missing-parenthesis                        - Warn for missing parenthesis around predicate registers
+  -mwarn-noncontigious-register                     - Warn for register names that arent contigious
+  -mwarn-sign-mismatch                              - Warn for mismatching a signed and unsigned value
+  -no-deprecated-warn                               - Suppress all deprecated warnings
+  -no-discriminators                                - Disable generation of discriminator information.
+  -no-warn                                          - Suppress all warnings
+  -nozero-initialized-in-bss                        - Don't place zero-initialized symbols into bss section
+  -nvptx-sched4reg                                  - NVPTX Specific: schedule for register pressue
+  -o=<filename>                                     - Override output filename
+  -p                                                - Print module after each transformation
+  -pass-remarks-output=<filename>                   - YAML output filename for pass remarks
+  -pie-copy-relocations                             - PIE Copy Relocations
+  -print-breakpoints-for-testing                    - Print select breakpoints location for testing
+  -r600-ir-structurize                              - Use StructurizeCFG IR pass
+  -rdf-dump                                         - 
+  -rdf-limit=<uint>                                 - 
+  -relax-elf-relocations                            - Emit GOTPCRELX/REX_GOTPCRELX instead of GOTPCREL on x86-64 ELF
+  -relocation-model                                 - Choose relocation model
+    =static                                         -   Non-relocatable code
+    =pic                                            -   Fully relocatable, position independent code
+    =dynamic-no-pic                                 -   Relocatable external references, non-relocatable code
+    =ropi                                           -   Code and read-only data relocatable, accessed PC-relative
+    =rwpi                                           -   Read-write data relocatable, accessed relative to static base
+    =ropi-rwpi                                      -   Combination of ropi and rwpi
+  -safepoint-ir-verifier-print-only                 - 
+  -sample-profile-check-record-coverage=<N>         - Emit a warning if less than N% of records in the input profile are matched to the IR.
+  -sample-profile-check-sample-coverage=<N>         - Emit a warning if less than N% of samples in the input profile are matched to the IR.
+  -sample-profile-max-propagate-iterations=<uint>   - Maximum number of iterations to go through when propagating sample block/edge weights through the CFG.
+  -speculative-counter-promotion-max-exiting=<uint> - The max number of exiting blocks of a loop to allow  speculative counter promotion
+  -speculative-counter-promotion-to-loop            - When the option is false, if the target block is in a loop, the promotion will be disallowed unless the promoted counter  update can be further/iteratively promoted into an acyclic  region.
+  -stack-alignment=<uint>                           - Override default stack alignment
+  -stack-size-section                               - Emit a section containing stack size metadata
+  -stack-symbol-ordering                            - Order local stack symbols.
+  -stackrealign                                     - Force align the stack to the minimum alignment
+  -std-link-opts                                    - Include the standard link time optimizations
+  -strip-debug                                      - Strip debugger symbol info from translation unit
+  -strip-named-metadata                             - Strip module-level named metadata
+  -summary-file=<string>                            - The summary file to use for function importing.
+  -tailcallopt                                      - Turn fastcc calls into tail calls by (potentially) changing ABI.
+  -thin-link-bitcode-file=<filename>                - A file in which to write minimized bitcode for the thin link only
+  -thinlto-bc                                       - Write output as ThinLTO-ready bitcode
+  -thinlto-split-lto-unit                           - Enable splitting of a ThinLTO LTOUnit
+  -thread-model                                     - Choose threading model
+    =posix                                          -   POSIX thread model
+    =single                                         -   Single thread model
+  -unique-section-names                             - Give unique names to every section
+  -use-ctors                                        - Use .ctors instead of .init_array.
+  -verify-each                                      - Verify after each transform
+  -verify-region-info                               - Verify region info (time consuming)
+  -vp-counters-per-site=<number>                    - The average number of profile counters allocated per value profiling site.
+  -vp-static-alloc                                  - Do static counter allocation for value profiler
+
+Generic Options:
+
+  -help                                             - Display available options (-help-hidden for more)
+  -help-list                                        - Display list of available options (-help-list-hidden for more)
+  -version                                          - Display the version of this program
