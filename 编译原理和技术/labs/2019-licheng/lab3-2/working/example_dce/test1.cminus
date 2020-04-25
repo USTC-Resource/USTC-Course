@@ -1,0 +1,15 @@
+/* code optim dce */
+int main(void) {
+	int a;
+	int b;
+	int c;
+	int d;
+	a = 1;
+	b = 1;
+	c = 1;
+	d = 1;
+	c = a + a;
+	b = a + a;
+	(a + b) + (c + d);
+	return 0;
+}

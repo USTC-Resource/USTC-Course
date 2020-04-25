@@ -1,0 +1,18 @@
+/* code optim adce */
+/* this can be optimized because d is not used */
+/* if return 0 is changed to return b, then no optimization */
+int main(void) {
+	int a;
+	int b;
+	int c;
+	int d;
+	a = 1;
+	b = 1;
+	c = 1;
+	d = 1;
+	while(a < 10) {
+		a = a + 1;
+		d = a + b + c + d;
+	}
+	return 0;
+}
