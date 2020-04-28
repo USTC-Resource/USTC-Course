@@ -22,8 +22,8 @@ jobs:
           python3 utils/genIndex.py
     - name: git config
       run: |
-          git config user.name "mbinary"
-          git config user.email "zhuheqin1@gmail.com"
+          git config user.name "ustc-course"
+          git config user.email "ustc_course@163.com"
     - name: generate pages and push to gh-pages branch
       env:
           ACCESS_TOKEN: ${{secrets.ACCESS_TOKEN}}
