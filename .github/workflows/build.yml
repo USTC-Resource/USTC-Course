@@ -22,8 +22,8 @@ jobs:
           python3 utils/genIndex.py
     - name: git config
       run: |
-          git config --global user.name "ustc-course"
-          git config --global user.email "ustc_course@163.com"
+          git config --global user.name "mbinary"
+          git config --global user.email "zhuheqin1@gmail.com"
     - name: generate pages and push to gh-pages branch
       env:
           ACCESS_TOKEN: ${{secrets.ACCESS_TOKEN}}
@@ -32,6 +32,7 @@ jobs:
           git init
           git remote add origin git@github.com:USTC-Resource/USTC-Course.git
           git add --all
+          export TZ='Asia/Shanghai'
           git commit -m "Update webpages at `date +%Y-%m-%d,%H:%m` UTC+8"
           git push -f "https://${ACCESS_TOKEN}@github.com/USTC-Resource/USTC-Course" master:gh-pages
         
