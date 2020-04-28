@@ -1,0 +1,37 @@
+name: build
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
+jobs:
+  codecov:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - uses: actions/setup-python@v1
+      with:
+          python-version: 3.6
+    - name: install python modules
+      run: pip install flake8 markdown pypinyin
+    - name: format code
+      run: flake8 . --count --select=E9,F63,F72,F82 --show-source --statistics
+    - name: generate information
+      run: |
+          python3 utils/genReadme.py
+          python3 utils/genIndex.py
+    - name: git config
+      run: |
+          git config user.name "mbinary"
+          git config user.email "zhuheqin1@gmail.com"
+    - name: generate pages and push to gh-pages branch
+      env:
+          ACCESS_TOKEN: ${{secrets.ACCESS_TOKEN}}
+      run: |
+          cd docs
+          git init
+          git remote add origin git@github.com:USTC-Resource/USTC-Course.git
+          git add --all
+          git commit -m "Update webpages at `date +%Y-%m-%d,%H:%m` UTC+8"
+          git push -f "https://${ACCESS_TOKEN}@github.com/USTC-Resource/USTC-Course" master:gh-pages
+        
