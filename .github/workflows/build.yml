@@ -5,7 +5,7 @@ on:
   pull_request:
     branches: [ master ]
 jobs:
-  codecov:
+  build:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v2
@@ -22,8 +22,8 @@ jobs:
           python3 utils/genIndex.py
     - name: git config
       run: |
-          git config user.name "ustc-course"
-          git config user.email "ustc_course@163.com"
+          git config --global user.name "ustc-course"
+          git config --global user.email "ustc_course@163.com"
     - name: generate pages and push to gh-pages branch
       env:
           ACCESS_TOKEN: ${{secrets.ACCESS_TOKEN}}
