@@ -5,7 +5,7 @@
 
 [![Stars](https://img.shields.io/github/stars/USTC-Resource/USTC-Course.svg?label=Stars&style=social)](https://github.com/USTC-Resource/USTC-Course/stargazers)
 [![Forks](https://img.shields.io/github/forks/USTC-Resource/USTC-Course.svg?label=Forks&style=social)](https://github.com/USTC-Resource/USTC-Course/network/members)
-[![Build](https://travis-ci.org/USTC-Resource/USTC-Course.svg?branch=master)](https://travis-ci.org/USTC-Resource/USTC-Course?branch=master)
+[![build](https://github.com/USTC-Resource/USTC-Course/workflows/build/badge.svg)]()
 [![repo-size](https://img.shields.io/github/repo-size/USTC-Resource/USTC-Course.svg)]()
 [![License](https://i.creativecommons.org/l/by-nc-sa/4.0/80x15.png)](http://creativecommons.org/licenses/by-nc-sa/4.0/)
 
