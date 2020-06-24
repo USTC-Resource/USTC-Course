@@ -3,7 +3,7 @@ import os
 from pinyinSort import pinyinSort
 from argparse import ArgumentParser
 
-#命令行输入参数处理
+# 命令行输入参数处理
 parser = ArgumentParser()
 
 parser.add_argument('-p', '--path', default='.', help='path to walk')
@@ -13,7 +13,7 @@ parser.add_argument(
     action='store_true',
     help='if has, list files and dirs, else only dirs')
 parser.add_argument('-d', '--depth', type=int, default=2)
-#获取参数
+# 获取参数
 args = parser.parse_args()
 FILE = args.fileinclude
 PATH = args.path
@@ -33,15 +33,21 @@ def clean(paths):
     return ret
 
 
-def tree(path='.', depth=2, showfile=False):
+def tree(path='.', depth=2, showfile=False, ignore=None):
     while not os.path.isdir(path):
         print('[error]: please input a directory, not file path')
         path = input()
-    li = os.listdir(path)
-    items = [os.path.join(path, i) for i in li if not i.startswith('.')]
+    if ignore is None:
+        ignore = set()
+    else:
+        ignore = set(ignore)
+    li = [i for i in os.listdir(
+        path) if i not in ignore and not i.startswith('.')]
+    items = [os.path.join(path, i) for i in li]
     items = clean(items)
     items = pinyinSort(items)
-    if not showfile: items = [i for i in items if os.path.isdir(i)]
+    if not showfile:
+        items = [i for i in items if os.path.isdir(i)]
     if depth == 1:
         return [mklink(path)] + [' ' * 4 + mklink(i) for i in items]
     else:

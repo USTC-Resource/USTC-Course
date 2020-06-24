@@ -56,7 +56,7 @@
 
 ## HTTPS
 
-- [github 网页](#课程目录)
+- [GitHub 网页](#课程目录)
 - [DownGit](http://downgit.zhoudaxiaa.com/#/home)
 - [gitzip-chrome-extension](https://chrome.google.com/webstore/detail/gitzip-for-github/ffabmkklhbepgcgfonabamgnfafbdlkn)
 
@@ -93,7 +93,6 @@ course
     * [代数结构](./代数结构)
     * [概率论与数理统计](./概率论与数理统计)
     * [光学与原子物理](./光学与原子物理)
-    * [images](./images)
     * [Java软件开发基础](./Java软件开发基础)
     * [计算方法](./计算方法)
     * [计算机图像学](./计算机图像学)
@@ -107,25 +106,17 @@ course
     * [数理逻辑](./数理逻辑)
     * [算法基础](./算法基础)
     * [随机过程](./随机过程)
-    * [utils](./utils)
     * [Web-信息处理与应用](./Web-信息处理与应用)
     * [微机原理与系统](./微机原理与系统)
     * [自然语言处理](./自然语言处理)
 
 # 贡献投稿
->感谢您的贡献~
 
+>感谢您的贡献 :smiley:
 
-## [GitHub Commit](https://github.com/USTC-Resource/USTC-Course/graphs/contributors)
-[![](https://sourcerer.io/fame/mbinary/USTC-Resource/USTC-Course/images/0)](https://sourcerer.io/fame/mbinary/USTC-Resource/USTC-Course/links/0)[![](https://sourcerer.io/fame/mbinary/USTC-Resource/USTC-Course/images/1)](https://sourcerer.io/fame/mbinary/USTC-Resource/USTC-Course/links/1)[![](https://sourcerer.io/fame/mbinary/USTC-Resource/USTC-Course/images/2)](https://sourcerer.io/fame/mbinary/USTC-Resource/USTC-Course/links/2)[![](https://sourcerer.io/fame/mbinary/USTC-Resource/USTC-Course/images/3)](https://sourcerer.io/fame/mbinary/USTC-Resource/USTC-Course/links/3)[![](https://sourcerer.io/fame/mbinary/USTC-Resource/USTC-Course/images/4)](https://sourcerer.io/fame/mbinary/USTC-Resource/USTC-Course/links/4)[![](https://sourcerer.io/fame/mbinary/USTC-Resource/USTC-Course/images/5)](https://sourcerer.io/fame/mbinary/USTC-Resource/USTC-Course/links/5)[![](https://sourcerer.io/fame/mbinary/USTC-Resource/USTC-Course/images/6)](https://sourcerer.io/fame/mbinary/USTC-Resource/USTC-Course/links/6)[![](https://sourcerer.io/fame/mbinary/USTC-Resource/USTC-Course/images/7)](https://sourcerer.io/fame/mbinary/USTC-Resource/USTC-Course/links/7)[![](https://sourcerer.io/fame/mbinary/USTC-Resource/USTC-Course/images/8)](https://sourcerer.io/fame/mbinary/USTC-Resource/USTC-Course/links/8)
-
-## 内容创作者
-在对应文件内容或者文件名中标明。若有疏漏，请修改后 pull request 或者提出 issue.
-
-欢迎大家的参与与贡献^_^
-* 仅接受学生原创的或者获得授权的资源
-* github 上不能直接上传大于 100mb 的文件。对于超过 100 mb 的文件，可以存在网盘，然后在 README 文件中贴上链接
-* 文件内容的改动会使 git 重新上传, 在没有必要的情况下, 不要对二进制文件做任何更改.
+- 仅接受学生原创的或者获得授权的资源
+- GitHub 上不能直接上传大于 100Mb 的文件。对于超过 100 Mb 的文件，可以存在网盘，然后在 README.md 中贴上链接
+- 文件内容的改动会使 git 重新上传, 在没有必要的情况下, 不要对二进制文件做任何更改.
 
 <!--
 可以通过如下方式贡献
