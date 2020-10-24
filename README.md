@@ -79,7 +79,7 @@ course
 └ README.md
 ```
 # 课程关系
-![](images/course.png)
+![](images/course.svg)
 
 更多信息可以下载[官网的培养方案](https://www.teach.ustc.edu.cn/education/241.html/attachment/14-215%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%AD%A6%E9%99%A2-2013)
 
