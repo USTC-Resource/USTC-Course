@@ -22,7 +22,7 @@ jobs:
           python3 utils/genIndex.py
     - name: git config
       run: |
-          git config --global user.name "heqin-zhu"
+          git config --global user.name "mbinary"
           git config --global user.email "zhuheqin1@gmail.com"
     - name: generate pages and push to gh-pages branch
       env:
