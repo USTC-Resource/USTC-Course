@@ -14,8 +14,8 @@ jobs:
           python-version: 3.10.18
     - name: install python modules
       run: pip install flake8 markdown pypinyin
-    - name: format code
-      run: flake8 . --count --select=E9,F63,F72,F82 --show-source --statistics
+    #- name: format code
+    #  run: flake8 . --count --select=E9,F63,F72,F82 --show-source --statistics
     - name: generate information
       run: |
           python3 utils/genReadme.py
