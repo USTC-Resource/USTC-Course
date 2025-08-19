@@ -17,7 +17,7 @@ if not os.path.exists(TARDIR):
 
 IGNORE = ['utils', 'docs', '__pycache__', '_config.yml','images']
 
-DOWNLOAD = 'http://downgit.zhoudaxiaa.com/#/home?url=https://github.com/' + OWNER + '/' + REPO + '/tree/' + BRANCH + '/'
+DOWNLOAD = 'https://download-directory.github.io/?url=https://github.com/' + OWNER + '/' + REPO + '/tree/' + BRANCH + '/'
 
 HTML = '''
 <head>
