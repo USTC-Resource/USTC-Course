@@ -1,6 +1,3 @@
-
-![](images/logo.png)
-
 # 中国科学技术大学课程资源
 
 [![Stars](https://img.shields.io/github/stars/USTC-Resource/USTC-Course.svg?label=Stars&style=social)](https://github.com/USTC-Resource/USTC-Course/stargazers)
