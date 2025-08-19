@@ -7,32 +7,38 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
+    permissions:
+      contents: write  # 新增：赋予写入内容的权限
+    
     steps:
-    - uses: actions/checkout@v2
-    - uses: actions/setup-python@v1
+    - uses: actions/checkout@v4  # 升级到最新版本
+    - uses: actions/setup-python@v5  # 升级到最新版本
       with:
-          python-version: 3.10.18
+          python-version: '3.10'  # 简化版本号，使用最新的3.10.x
+    
     - name: install python modules
       run: pip install flake8 markdown pypinyin
     #- name: format code
-    #  run: flake8 . --count --select=E9,F63,F72,F82 --show-source --statistics
+    #  run: flake8 . --count --select=E9,F63,F72,F82 --show-
     - name: generate information
       run: |
           python3 utils/genReadme.py
           python3 utils/genIndex.py
+    
     - name: git config
       run: |
-          git config --global user.name "mbinary"
+          git config --global user.name "heqin-zhu"
           git config --global user.email "zhuheqin1@gmail.com"
+    
     - name: generate pages and push to gh-pages branch
-      env:
-          ACCESS_TOKEN: ${{secrets.ACCESS_TOKEN}}
       run: |
           cd docs
           git init
-          git remote add origin git@github.com:USTC-Resource/USTC-Course.git
+          # 使用HTTPS协议而非SSH，避免密钥问题
+          git remote add origin https://github.com/USTC-Resource/USTC-Course.git
           git add --all
           export TZ='Asia/Shanghai'
-          git commit -m "Update webpages at `date +%Y-%m-%d,%H:%m` UTC+8"
-          git push -f "https://${ACCESS_TOKEN}@github.com/USTC-Resource/USTC-Course" master:gh-pages
-        
+          git commit -m "Update webpages at `date +%Y-%m-%d,%H:%M` UTC+8"  # 修复时间格式错误(%m改为%M)
+          
+          # 使用GitHub官方令牌和推荐的认证格式
+          git push -f "https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/USTC-Resource/USTC-Course.git" HEAD:gh-pages
